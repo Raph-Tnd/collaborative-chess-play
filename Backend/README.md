@@ -7,6 +7,11 @@
 
 ###Lancement :
 A la racine du projet, exécuter la commande suivante :
+#### Windows
 ```
 .\mvnw spring-boot:run
+```
+#### Linux
+```
+mvn spring-boot:run
 ```

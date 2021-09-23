@@ -1,0 +1,128 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Collaborative chess game"
+host: "localhost:8080"
+basePath: "/api"
+tags:
+- name: "Game management"
+  description: "Everything about piece and game management"
+- name: "User"
+  description: "Users management"
+schemes:
+- "https"
+- "http"
+paths:
+  /game/{id}:
+    get:
+      tags:
+      - "Game management"
+      summary: "Move a piece"
+      description: ""
+      operationId: "movePiece"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Piece id to move"
+        required: true
+        type: number
+      responses:
+        "200":
+          description: "Ok"
+      security:
+      - chessgame_auth:
+        - "connected"
+  /game/vote:
+    post:
+      tags:
+      - "Game management"
+      summary: "Vote for a move"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "the move"
+        in: "body"
+        description: "The move the user is voting for"
+        required: true
+        schema:
+          $ref: '#/definitions/Move'
+      responses:
+        "200":
+          description: "Ok"
+        
+  /user/connect:
+    post:
+      tags:
+      - "User"
+      summary: "Connect a user to the game"
+      description: ""
+      operationId: "connectUser"
+      parameters:
+      - name: "user datas"
+        in: "body"
+        description: "The team the user is joining and his name"
+        required: true
+        schema:
+          $ref: '#/definitions/Player'
+      responses:
+        "200":
+          description: "Ok"
+        "409":
+          description: "The team is full"
+  /user/players:
+    get:
+      tags:
+      - "User"
+      summary: "Get all the players of the game"
+      description: ""
+      operationId: "getAllPlayers"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Ok"
+          schema:
+            $ref: '#/definitions/AllPlayers'
+      security:
+      - chessgame_auth:
+        - "connected"
+        
+        
+        
+        
+securityDefinitions:
+  chessgame_auth:
+    type: "oauth2"
+    authorizationUrl: "http://localhost/api/authorize"
+    flow: "implicit"
+    scopes:
+      connected: "If a user is connected as a white or a black player"
+definitions:
+  Player:
+    type: "object"
+    properties:
+      name:
+        type: string
+      team:
+        type: "integer"
+        format: "tiny"
+      
+  AllPlayers:
+    type: "array"
+    items:
+      $ref: '#/definitions/Player'
+      
+  Move:
+    type: "object"
+    properties:
+      pieceId:
+        type: "integer"
+        format: "int64"
+      xCoord:
+        type: "integer"
+        format: "int64"
+      yCoord:
+        type: "integer"
+        format: "int64"
