@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="699b04b6-5f99-411e-ae7e-46d8d1013dcd" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Doc/Cas d'utilisation/UseCase.puml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Doc/Diagramme de séquence/Connexion/1-Ok.puml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Doc/Diagramme de séquence/Connexion/2-Partie pleine.puml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/README.md" afterDir="false" />
     </list>
