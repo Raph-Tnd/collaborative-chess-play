@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://db:3306/database?createDatabaseIfNotExist=true
+    username: root
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+server:
+  servlet:
+    contextPath: /api
