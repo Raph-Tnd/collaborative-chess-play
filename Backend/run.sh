@@ -1,0 +1,1 @@
+docker-compose down && docker build -t univnantes/ccg_backend . && docker-compose up

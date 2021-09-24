@@ -4,14 +4,15 @@
 - Java 16
 - Maven
 - IntelliJ
+- Docker Desktop
 
 ###Lancement :
 A la racine du projet, exécuter la commande suivante :
 #### Windows
 ```
-.\mvnw spring-boot:run
+run
 ```
 #### Linux
 ```
-mvn spring-boot:run
+bash ./run.sh
 ```
