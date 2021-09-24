@@ -16,4 +16,12 @@ run
 ```
 bash ./run.sh
 ```
-#### Listing des erreurs possibles lors de la mise en place du backend
+
+##Liste des exceptions à lever
+
+####Connexion
+- Un utilisateur est déjà connecté avec le même pseudo
+- Il y a trop de joueurs dans l'équipe choisie
+
+####Voter pour un déplacement
+- ?
