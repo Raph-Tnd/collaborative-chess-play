@@ -1,4 +1,4 @@
-## Faire tourner le backend
+## Mise en place du backend
 
 ###Prérequis :
 - Java 16
@@ -16,3 +16,4 @@ run
 ```
 bash ./run.sh
 ```
+#### Listing des erreurs possibles lors de la mise en place du backend
