@@ -10,3 +10,6 @@ spring:
 server:
   servlet:
     contextPath: /api
+  error:
+    include-message: always
+    include-binding-errors: always
