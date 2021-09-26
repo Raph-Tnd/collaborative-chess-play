@@ -9,6 +9,7 @@ public class PlayerTranslater {
         PlayerEntity playerEntity = new PlayerEntity();
         playerEntity.name = playerModel.name;
         playerEntity.team = playerModel.team;
+        playerEntity.id_game = playerModel.id_game;
 
         return playerEntity;
     }
@@ -17,6 +18,7 @@ public class PlayerTranslater {
         PlayerModel playerModel = new PlayerModel();
         playerModel.name = playerEntity.name;
         playerModel.team = playerEntity.team;
+        playerModel.id_game = playerEntity.id_game;
 
         return playerModel;
     }
