@@ -15,4 +15,7 @@ public class PlayerEntity {
 
     @Column(name="team", nullable = false)
     public byte team;
+
+    @Column(name="id_game", nullable = false)
+    public String id_game;
 }
