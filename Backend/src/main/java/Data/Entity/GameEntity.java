@@ -13,6 +13,11 @@ public class GameEntity {
     @Column(name="id", nullable = false)
     public String id;
 
-    @Column(name="nb_players", nullable = false)
-    public int nb_players;
+    //white = team 0
+    @Column(name="w_players", nullable = false)
+    public int w_players;
+
+    //black = team 1
+    @Column(name="b_players", nullable = false)
+    public int b_players;
 }
