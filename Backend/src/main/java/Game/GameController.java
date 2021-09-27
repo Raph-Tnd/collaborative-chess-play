@@ -3,6 +3,7 @@ package main.java.Game;
 import main.java.Data.Model.MoveModel;
 import main.java.Data.Model.PlayerModel;
 import main.java.Exception.ExceptionGameAlreadyExist;
+import main.java.Exception.ExceptionGameDoesNotExist;
 import main.java.Exception.ExceptionUserAlreadyConnected;
 import main.java.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,10 @@ public class GameController {
     @PostMapping("/game/create")
     public String createGame() throws ExceptionGameAlreadyExist {
         return gameService.create();
+    }
+
+    @DeleteMapping("/game/delete/{id}")
+    public void delete(@PathVariable String id) throws ExceptionGameDoesNotExist {
+        gameService.delete(id);
     }
 }

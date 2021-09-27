@@ -1,6 +1,7 @@
 package main.java.User;
 
 import main.java.Common.GameRepository;
+import main.java.Data.Entity.GameEntity;
 import main.java.Data.Entity.PlayerEntity;
 import main.java.Data.Model.PlayerModel;
 import main.java.Data.Translator.PlayerTranslater;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -30,7 +32,9 @@ public class UserService {
             throw new ExceptionGameDoesNotExist("This game does not exist");
 
         userRepository.save(playerEntity);
-        System.out.println("Connected as " + playerModel.name + " with team n°" + playerModel.team);
+        GameEntity gameEntity = gameRepository.findById(playerEntity.id_game).get();
+        gameEntity.nb_players++;
+        gameRepository.save(gameEntity);
     }
 
     public List<PlayerModel> getAllPlayer(String id) {
