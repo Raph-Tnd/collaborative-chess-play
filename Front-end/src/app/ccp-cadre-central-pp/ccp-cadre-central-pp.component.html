@@ -1,0 +1,23 @@
+<div>
+    <h1>
+      {{title}}
+    </h1>
+</div>
+<div>
+    <h2>
+        {{userName}}
+    </h2>
+</div>
+<div>
+    <input type="text"
+    class="form-control" 
+    [(ngModel)]="userName">
+</div>
+
+
+<div>
+    <button class="btn btn-success" 
+            [disabled]="!verifUserName(userName)"
+            (click)="onGameJoin()">Join The Game
+    </button>
+</div>
