@@ -1,7 +1,7 @@
 package main.java.Game;
 
 import main.java.Common.GameRepository;
-import main.java.Common.Monitor;
+import main.java.Synchronization.Monitor;
 import main.java.Data.Entity.GameEntity;
 import main.java.Data.Model.MoveModel;
 import main.java.Exception.ExceptionGameAlreadyExist;
@@ -15,10 +15,11 @@ public class GameService {
     private GameRepository gameRepository;
 
     @Autowired
-    private Monitor commonMonitor;
+    private Monitor monitor;
+
 
     public void vote(MoveModel moveModel) throws InterruptedException { //todo implémenter la synchro
-        commonMonitor.waitForAllVotes(moveModel.game_id);
+        monitor.getMoveLock(moveModel);
     }
 
     public String create() throws ExceptionGameAlreadyExist {
@@ -38,8 +39,12 @@ public class GameService {
 
         GameEntity gameEntity = new GameEntity();
         gameEntity.id = id;
-        gameEntity.nb_players = 0;
+        gameEntity.w_players = 0;
+        gameEntity.b_players = 0;
         gameRepository.save(gameEntity);
+
+        monitor.create(id);
+
         return id;
     }
 
@@ -47,6 +52,7 @@ public class GameService {
         if(!gameRepository.existsById(id))
             throw new ExceptionGameDoesNotExist("This game does not exist");
 
+        monitor.delete(id);
         gameRepository.deleteById(id);
     }
 }

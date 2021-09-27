@@ -33,7 +33,11 @@ public class UserService {
 
         userRepository.save(playerEntity);
         GameEntity gameEntity = gameRepository.findById(playerEntity.id_game).get();
-        gameEntity.nb_players++;
+        if(playerModel.team == 0) {
+            gameEntity.w_players++;
+        } else {
+            gameEntity.b_players++;
+        }
         gameRepository.save(gameEntity);
     }
 

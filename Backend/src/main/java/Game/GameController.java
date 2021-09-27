@@ -18,6 +18,7 @@ public class GameController {
 
     @PostMapping("/game/vote")
     public void voteMove(@RequestBody MoveModel moveModel) throws InterruptedException {
+        System.out.println("Team = " + moveModel.team);
         gameService.vote(moveModel);
     }
 
