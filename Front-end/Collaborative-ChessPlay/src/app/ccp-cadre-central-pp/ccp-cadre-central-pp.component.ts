@@ -15,10 +15,14 @@ export class CcpCadreCentralPpComponent implements OnInit {
 
 //vérification de l'intégrité du nom d'utilisateur:
 //(DONE)-plus de 3 lettres
+  enoughLetters(Name :string){
+    return Name.length>=4
+  }
 //(TODO)-pas déjà présent dans la partie 
 //(TODO)-pas que des caractères vides
+
   verifUserName(Name : string){
-    return Name.length>=4;
+    return this.enoughLetters(Name);
   }
 
   constructor() { }
