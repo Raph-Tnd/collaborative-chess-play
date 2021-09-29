@@ -1,1 +1,1 @@
-docker-compose down && ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=univnantes/ccg_backend && docker-compose up
+sudo docker-compose down && ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=univnantes/ccg_backend && sudo docker-compose up
