@@ -31,13 +31,21 @@
 <div>
     <input type="text"
     class="form-control" 
-    [(ngModel)]="userName">
+    [(ngModel)]="userName" placeholder="Pseudo ">
 </div>
-
+<div *ngIf="!enoughLetters(userName)">
+    <p>Votre pseudo doit contenir au moins 4 caractères !</p>
+</div>
 
 <div>
     <button class="btn btn-success" 
             [disabled]="!enoughLetters(userName)"
             (click)="onGameJoin()">Join The Game
+    </button>
+</div>
+<div>
+    <button class="btn btn-success" 
+            [disabled]="!enoughLetters(userName)"
+            (click)="onGameCreation()">Create a Game
     </button>
 </div>
