@@ -1,0 +1,28 @@
+.chessboard{
+  width: 850px;
+  height: 850px;
+  margin: 20px;
+  border: 25px solid #333;
+}
+
+.beige{
+  float: left;
+  width: 100px;
+  height: 100px;
+  background-color: beige;
+    font-size: 70px;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.brown{
+  float: left;
+  width: 100px;
+  height: 100px;
+  background-color: saddlebrown;
+  font-size: 70px;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+}
