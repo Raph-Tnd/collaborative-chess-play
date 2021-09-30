@@ -7,7 +7,7 @@
 
     <div class="cadreCentral">
 
-        <div class="cadreCentralContent">
+        <div class="pseudoAffichage">
             <h2>
                 {{userName}}
             </h2>
@@ -35,8 +35,8 @@
             <input type="text" class="form-control" [(ngModel)]="userName" placeholder="Pseudo ">
         </div>
 
-        <div class="pseudoHelp" *ngIf="!enoughUserNameLetters(userName)">
-            <small id="passwordHelpInline" class="text-help">
+        <div class="pseudoHelp">
+            <small id="passwordHelpInline" class="text-help" *ngIf="!enoughUserNameLetters(userName)">
                 Votre pseudo doit contenir au moins 4 caractères !
             </small>
         </div>
