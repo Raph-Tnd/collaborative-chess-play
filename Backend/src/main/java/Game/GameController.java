@@ -16,9 +16,13 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
+    @GetMapping("/game/vote/{id}")
+    public List<MoveModel> getVotes(@PathVariable String id) {
+        return gameService.getVotes(id);
+    }
+
     @PostMapping("/game/vote")
     public void voteMove(@RequestBody MoveModel moveModel) throws InterruptedException {
-        System.out.println("Team = " + moveModel.team);
         gameService.vote(moveModel);
     }
 

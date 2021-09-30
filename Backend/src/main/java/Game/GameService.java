@@ -1,7 +1,7 @@
 package main.java.Game;
 
 import main.java.Common.GameRepository;
-import main.java.Synchronization.Monitor;
+import main.java.Common.Synchronization.Monitor;
 import main.java.Data.Entity.GameEntity;
 import main.java.Data.Model.MoveModel;
 import main.java.Exception.ExceptionGameAlreadyExist;
@@ -9,8 +9,11 @@ import main.java.Exception.ExceptionGameDoesNotExist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class GameService {
+
     @Autowired
     private GameRepository gameRepository;
 
@@ -19,7 +22,7 @@ public class GameService {
 
 
     public void vote(MoveModel moveModel) throws InterruptedException { //todo implémenter la synchro
-        monitor.getMoveLock(moveModel);
+        monitor.postMove(moveModel);
     }
 
     public String create() throws ExceptionGameAlreadyExist {
@@ -54,6 +57,10 @@ public class GameService {
 
         monitor.delete(id);
         gameRepository.deleteById(id);
+    }
+
+    public List<MoveModel> getVotes(String id) {
+        return monitor.getVotes(id);
     }
 }
 
