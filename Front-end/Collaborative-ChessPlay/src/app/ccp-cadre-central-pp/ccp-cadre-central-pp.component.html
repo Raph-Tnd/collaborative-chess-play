@@ -34,7 +34,9 @@
     [(ngModel)]="userName" placeholder="Pseudo ">
 </div>
 <div *ngIf="!enoughLetters(userName)">
-    <p>Votre pseudo doit contenir au moins 4 caractères !</p>
+    <small id="passwordHelpInline" class="text-muted">
+        Votre pseudo doit contenir au moins 4 caractères !
+    </small>
 </div>
 
 <div>
