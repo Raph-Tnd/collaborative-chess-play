@@ -1,0 +1,59 @@
+.pagePrincipale{
+    background-color: burlywood;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+.text-help{
+    color: beige;
+}
+.titrePagePrincipale{
+    margin-left: auto;
+    margin-right: auto;
+    width:fit-content;
+}
+.cadreCentral{
+    background-color: saddlebrown;
+    margin-left: auto;
+    margin-right: auto;
+    width:50%;
+    max-width: 500px;
+    min-width: 400px;
+    height:50%;
+    max-height: 500px;
+    min-height: 400px;
+}
+
+.cadreCentralContent{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    width:fit-content;
+}
+
+.pseudoHelp{
+    margin-left: auto;
+    margin-right: auto;
+    width:fit-content;
+}
+
+.pseudoInputZone{
+    margin-left: auto;
+    margin-right: auto;
+    width:fit-content;
+}
+
+.createGameButton{
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    width:fit-content;
+}
+.joinGameButton{
+    margin-top: 1rem;
+    margin-bottom: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    width:fit-content;
+}

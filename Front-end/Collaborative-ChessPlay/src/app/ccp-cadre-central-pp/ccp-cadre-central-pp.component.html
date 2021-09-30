@@ -1,54 +1,55 @@
-<div>
-    <h1>
-      {{title}}
-    </h1>
-</div>
-<div>
-    <h2>
-        {{userName}}
-    </h2>
-</div>
+<div class=pagePrincipale>
+    <div class="titrePagePrincipale">
+        <h1>
+            {{title}}
+        </h1>
+    </div>
 
-<!--Choix du camp à rejoindre blanc ou noir avec l'icone-->
-<div>
-    <button type="button"
-            class="btn btn-left"
-            onfocus="this.blur()">
-            <svg class="bi bi-chevron-right"  width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
-            </svg>
-    </button>
-    <img src="../../favicon.ico">
-    <button type="button" 
-            class="btn btn-light" 
-            onfocus="this.blur()" >
-            <svg class="bi bi-chevron-right"  width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path>
-            </svg>
-    </button>
-</div>
+    <div class="cadreCentral">
 
-<div>
-    <input type="text"
-    class="form-control" 
-    [(ngModel)]="userName" placeholder="Pseudo ">
-</div>
+        <div class="cadreCentralContent">
+            <h2>
+                {{userName}}
+            </h2>
+        </div>
 
-<div *ngIf="!enoughUserNameLetters(userName)">
-    <small id="passwordHelpInline" class="text-muted">
-        Votre pseudo doit contenir au moins 4 caractères !
-    </small>
-</div>
-<div>
-    <button class="btn btn-success" 
-            [disabled]="!enoughUserNameLetters(userName)"
-            (click)="onGameCreation()">Create a Game
-    </button>
-</div>
-<div>
-    <button class="btn btn-success" 
-            [disabled]="!enoughUserNameLetters(userName)"
-            (click)="onGameJoin()">Join The Game
-    </button>
-</div>
+        <!--Choix du camp à rejoindre blanc ou noir avec l'icone-->
+        <div class="cadreCentralContent">
+            <button type="button" class="btn btn-left" onfocus="this.blur()">
+                <svg class="bi bi-chevron-right" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+                </svg>
+            </button>
+            <img src="../../favicon.ico">
+            <button type="button" class="btn btn-right" onfocus="this.blur()">
+                <svg class="bi bi-chevron-right" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z">
+                    </path>
+                </svg>
+            </button>
+        </div>
 
+        <div class="pseudoInputZone">
+            <input type="text" class="form-control" [(ngModel)]="userName" placeholder="Pseudo ">
+        </div>
+
+        <div class="pseudoHelp" *ngIf="!enoughUserNameLetters(userName)">
+            <small id="passwordHelpInline" class="text-help">
+                Votre pseudo doit contenir au moins 4 caractères !
+            </small>
+        </div>
+        <div class="createGameButton">
+            <button class="btn btn-success" [disabled]="!enoughUserNameLetters(userName)"
+                (click)="onGameCreation()">Create a Game
+            </button>
+        </div>
+        <div class="joinGameButton">
+            <button class="btn btn-success" [disabled]="!enoughUserNameLetters(userName)" (click)="onGameJoin()">Join
+                The Game
+            </button>
+        </div>
+
+    </div>
+</div>
