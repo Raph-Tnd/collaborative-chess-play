@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { CcpCadreCentralPpComponent } from './ccp-cadre-central-pp/ccp-cadre-central-pp.component';
 import { FormsModule } from '@angular/forms';
 import { ChessBoardComponent } from './chess-board/chess-board.component';
+import { PieceComponent } from './piece/piece.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CcpCadreCentralPpComponent,
-    ChessBoardComponent
+    ChessBoardComponent,
+    PieceComponent
   ],
   imports: [
     BrowserModule,

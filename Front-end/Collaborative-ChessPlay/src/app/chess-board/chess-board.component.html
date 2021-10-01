@@ -11,88 +11,12 @@
 </div>
 -->
 
-<div ng-controller="">
 
-
-</div>
 <div class="chessboard">
-  <!-- 1st -->
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <!-- 2nd -->
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <!-- 3th -->
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <!-- 4st -->
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <!-- 5th -->
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <!-- 6th -->
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <!-- 7th -->
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <!-- 8th -->
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-  <div class="brown"></div>
-  <div class="beige"></div>
-
-
-
-
-
-
+  <div *ngFor="let row of BOARD; let i = index">
+    <div *ngFor="let pieceBoard of row; let j = index">
+      <app-piece [pieceBoard] = pieceBoard  class="{{colorBoard(i,j)}}"></app-piece>
+    </div>
+  </div>
 </div>
 
