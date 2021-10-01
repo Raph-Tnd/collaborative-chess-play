@@ -1,5 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormControl, Validators} from "@angular/forms";
+import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
+import {ErrorStateMatcher} from "@angular/material/core";
+
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({
   selector: 'app-chess-board',
@@ -46,20 +55,27 @@ export class ChessBoardComponent implements OnInit {
     }
   }
 
-
-
   moveFormControl = new FormControl('',[
     Validators.required,
     Validators.pattern("^[a-hA-H][0-8][a-hA-H][0-8]$")
   ])
 
+  matcher = new MyErrorStateMatcher();
+
   parseMove(move : string){
 
   }
 
-  onEnter(){
-    console.log(this.moveField);
-    this.moveField = "";
+  onSubmit(){
+    this.moveFormControl.markAllAsTouched();
+    if (this.moveFormControl.invalid){
+
+    }
+    else{
+      //submit to back
+    }
+    this.moveFormControl;
+    this.moveFormControl.reset();
   }
 
 

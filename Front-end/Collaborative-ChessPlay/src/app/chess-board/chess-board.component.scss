@@ -3,6 +3,10 @@
   height: 850px;
   margin: 20px;
   border: 25px solid #333;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+
 }
 
 .beige{
@@ -21,8 +25,31 @@
   width: 100px;
   height: 100px;
   background-color: saddlebrown;
-  font-size: 70px;
+    font-size: 70px;
   text-align: center;
   display: table-cell;
   vertical-align: middle;
+}
+
+.moveFormField{
+  width: auto;
+  height: auto;
+  background-color:darkgrey;
+  border-radius: 15px;
+}
+
+.moveForm{
+  width: auto;
+  height: auto;
+  position:relative;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.main{
+  width:100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
