@@ -13,6 +13,16 @@ export class CcpCadreCentralPpComponent implements OnInit {
   //Nom utilisateur qui sera rempli par l'utilisateur
    userName='';
 
+  //id de la game que veut rejoindre un joueur
+  gameId='';
+  //booléen d'affichage de la zone d'id pour join la game
+  showGameIdInputZone=false;
+
+  //méthode pour changer le statut de showGameIdInputZone en true
+  affichageGameIdInputZone(){
+    this.showGameIdInputZone=true;
+  }
+  
 //vérification de l'intégrité du nom d'utilisateur:
 //(DONE)-plus de 3 lettres
   enoughUserNameLetters(Name :string){

@@ -8,12 +8,14 @@
     color: beige;
 }
 .titrePagePrincipale{
+    margin-top: 3rem;
     margin-left: auto;
     margin-right: auto;
     width:fit-content;
 }
 .cadreCentral{
-    background-color: saddlebrown;
+    border-radius: 10px;
+    background-color:  rgb(160, 64, 0) ;
     margin-left: auto;
     margin-right: auto;
     width:50%;
@@ -22,6 +24,7 @@
     height:50%;
     max-height: 500px;
     min-height: 400px;
+    margin-top: 5rem;
 }
 .pseudoAffichage{
     width: auto;
@@ -61,7 +64,17 @@
 }
 .joinGameButton{
     margin-top: 1rem;
-    margin-bottom: 50px;
+    margin-bottom: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    width:fit-content;
+}
+.gameIdInputZone{
+    margin-left: auto;
+    margin-right: auto;
+    width:fit-content;
+}
+.idGameValidationButton{
     margin-left: auto;
     margin-right: auto;
     width:fit-content;
