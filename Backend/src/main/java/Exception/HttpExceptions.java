@@ -35,4 +35,10 @@ public class HttpExceptions {
     public void handlePlayerAlreadyVotedException(ExceptionPlayerAlreadyVoted exception, HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.CONFLICT.value(), exception.getMessage());
     }
+
+    @ExceptionHandler(value = ExceptionUserDoesNotExist.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public void handlePlayerAlreadyVotedException(ExceptionUserDoesNotExist exception, HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.CONFLICT.value(), exception.getMessage());
+    }
 }

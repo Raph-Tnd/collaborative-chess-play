@@ -5,6 +5,7 @@ import main.java.Common.UserRepository;
 import main.java.Data.Entity.PlayerEntity;
 import main.java.Data.Model.MoveModel;
 import main.java.Exception.ExceptionPlayerAlreadyVoted;
+import main.java.Exception.ExceptionUserDoesNotExist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +34,10 @@ public class Monitor {
         this.locks.remove(id);
     }
 
-    public void postMove(MoveModel moveModel) throws InterruptedException, ExceptionPlayerAlreadyVoted {
+    public void postMove(MoveModel moveModel) throws InterruptedException, ExceptionPlayerAlreadyVoted, ExceptionUserDoesNotExist {
+        if(!userRepository.existsById(moveModel.player))
+            throw new ExceptionUserDoesNotExist(moveModel.player + " is not connected to this game");
+
         PlayerEntity playerEntity = userRepository.findById(moveModel.player).get(); //todo user not found exception
         int maxVote;
         if (playerEntity.team == 0) {
