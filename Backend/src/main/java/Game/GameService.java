@@ -6,6 +6,7 @@ import main.java.Data.Entity.GameEntity;
 import main.java.Data.Model.MoveModel;
 import main.java.Exception.ExceptionGameAlreadyExist;
 import main.java.Exception.ExceptionGameDoesNotExist;
+import main.java.Exception.ExceptionPlayerAlreadyVoted;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class GameService {
     private Monitor monitor;
 
 
-    public void vote(MoveModel moveModel) throws InterruptedException { //todo implémenter la synchro
+    public void vote(MoveModel moveModel) throws InterruptedException, ExceptionPlayerAlreadyVoted { //todo implémenter la synchro
         monitor.postMove(moveModel);
     }
 

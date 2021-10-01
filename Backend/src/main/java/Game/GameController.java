@@ -4,6 +4,7 @@ import main.java.Data.Model.MoveModel;
 import main.java.Data.Model.PlayerModel;
 import main.java.Exception.ExceptionGameAlreadyExist;
 import main.java.Exception.ExceptionGameDoesNotExist;
+import main.java.Exception.ExceptionPlayerAlreadyVoted;
 import main.java.Exception.ExceptionUserAlreadyConnected;
 import main.java.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class GameController {
     }
 
     @PostMapping("/game/vote")
-    public void voteMove(@RequestBody MoveModel moveModel) throws InterruptedException {
+    public void voteMove(@RequestBody MoveModel moveModel) throws InterruptedException, ExceptionPlayerAlreadyVoted {
         gameService.vote(moveModel);
     }
 

@@ -29,4 +29,10 @@ public class HttpExceptions {
     public void handleGameDoesNotExistException(ExceptionGameDoesNotExist exception, HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.NOT_FOUND.value(), exception.getMessage());
     }
+
+    @ExceptionHandler(value = ExceptionPlayerAlreadyVoted.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public void handlePlayerAlreadyVotedException(ExceptionPlayerAlreadyVoted exception, HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.CONFLICT.value(), exception.getMessage());
+    }
 }
