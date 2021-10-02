@@ -8,3 +8,10 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'Collaborative-ChessPlay';
 }
+
+export interface Piece{
+  type: string;
+  asciiCodeWhite: string;
+  asciiCodeBlack: string;
+  verifyMove: (x1 : number, y1 : number, x2 : number, y2 : number) => boolean;
+}

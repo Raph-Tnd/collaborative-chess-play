@@ -1,0 +1,41 @@
+<!--- A utiliser apres lien backend
+<div>
+  <h1>{{id}}</h1>
+
+</div>
+
+<div>
+  <h1>
+    {{userName}}
+  </h1>
+</div>
+-->
+
+<div class="main">
+  <div class="chessboard">
+    <div *ngFor="let row of BOARD; let i = index">
+      <div *ngFor="let pieceBoard of row; let j = index">
+        <app-piece [pieceBoard] = pieceBoard  class="{{colorBoard(i,j)}}"></app-piece>
+      </div>
+    </div>
+  </div>
+
+  <div class="moveForm">
+    <mat-form-field class="moveFormField" appearance="fill">
+      <mat-label>Piece à jouer + destination</mat-label>
+      <input type="text" matInput [formControl] = "moveFormControl" [errorStateMatcher]="matcher"
+             (keyup.enter)="onSubmit()" placeholder="Ex: A1B2">
+
+      <mat-error *ngIf="moveFormControl.hasError('pattern') && !moveFormControl.hasError('required')">
+        Mouvement invalide
+      </mat-error>
+      <mat-error *ngIf="moveFormControl.hasError('required')">
+        Veuillez écrire un mouvement
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>
+
+
+
+
