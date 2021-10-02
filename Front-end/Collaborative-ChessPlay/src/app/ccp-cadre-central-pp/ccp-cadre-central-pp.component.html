@@ -13,15 +13,16 @@
             </h2>
         </div>
 
-        <!--Choix du camp à rejoindre blanc ou noir avec l'icone-->
+        <!--Choix du camp à rejoindre blanc ou noir avec l'icone
+        TIBO CA PUE LA MERDE
+
         <div class="cadreCentralContent">
-            <button type="button" class="btn btn-left" onfocus="this.blur()">
+            <button type="button" class="btn btn-left" onfocus="this.blur()" (click)="changeColor()" >
                 <svg class="bi bi-chevron-right" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
                         d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
                 </svg>
             </button>
-            <img src="../../favicon.ico">
             <button type="button" class="btn btn-right" onfocus="this.blur()">
                 <svg class="bi bi-chevron-right" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
@@ -30,6 +31,13 @@
                 </svg>
             </button>
         </div>
+         -->
+        <div class="cadreCentralContent">
+          <button type="button" (click)="changeColor()">
+            <img [src] = "colorTeam">
+          </button>
+        </div>
+
 
         <div class="pseudoInputZone">
             <input type="text" class="form-control" [(ngModel)]="userName" placeholder="Pseudo ">
