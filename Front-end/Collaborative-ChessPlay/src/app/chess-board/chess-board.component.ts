@@ -1,6 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import {ErrorStateMatcher} from "@angular/material/core";
+import {ActivatedRoute} from "@angular/router";
+import {ChessService} from "../chessService";
+import {userConnection} from "../bodyModelHTTPRequest";
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -17,10 +20,11 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class ChessBoardComponent implements OnInit {
 
-  constructor() { }
+
 
   @Input()
   moveField : string = "";
+  idGame : string | null  = "";
 
   BOARD: string[][] = [
     ["Tn1","Cn1","Fn1","Dn","Rn","Fn2","Cn2","Tn2"],
@@ -79,8 +83,11 @@ export class ChessBoardComponent implements OnInit {
     }
   }
 
+  constructor(private route: ActivatedRoute, private chessService: ChessService) { }
 
   ngOnInit(): void {
+
+
   }
 
 }
