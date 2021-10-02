@@ -39,18 +39,18 @@ export class ChessBoardComponent implements OnInit {
   colorBoard(x: number, y: number){
     if (this.isEven(x)){
       if(this.isEven(y)){
-        return "beige";
+        return "brown";
       }
       else{
-        return "brown";
+        return "beige";
       }
     }
     else{
       if(this.isEven(y)){
-        return "brown";
+        return "beige";
       }
       else{
-        return "beige";
+        return "brown";
       }
     }
   }
