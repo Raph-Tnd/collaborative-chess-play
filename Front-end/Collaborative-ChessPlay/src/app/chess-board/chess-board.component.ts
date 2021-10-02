@@ -63,19 +63,20 @@ export class ChessBoardComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
 
   parseMove(move : string){
+    //from "C1H2" -> "3182"
+    return String(move.charCodeAt(0)-97)+move[1]+String(move.charCodeAt(2)-97)+move[3];
 
   }
 
   onSubmit(){
     this.moveFormControl.markAllAsTouched();
-    if (this.moveFormControl.invalid){
-
-    }
-    else{
+    if (this.moveFormControl.valid){
       //submit to back
+      let move = this.parseMove(this.moveFormControl.value);
+
+
+      this.moveFormControl.reset();
     }
-    this.moveFormControl;
-    this.moveFormControl.reset();
   }
 
 
