@@ -11,6 +11,7 @@ import main.java.Exception.ExceptionUserAlreadyConnected;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class UserService {
     public void addPlayer(PlayerModel playerModel) throws ExceptionUserAlreadyConnected, ExceptionGameDoesNotExist {
         PlayerEntity playerEntity = PlayerTranslater.toEntity(playerModel);
 
-        if(userRepository.userAlreadyConnected(playerEntity.id) == 1)
+        if(userRepository.userAlreadyConnected(playerEntity.id.getId_game(),playerEntity.id.getName()) == 1)
             throw new ExceptionUserAlreadyConnected("A user is already connected with this username");
 
         if(!gameRepository.existsById(playerEntity.id.getId_game()))
@@ -56,6 +57,9 @@ public class UserService {
 
 interface UserRepository extends CrudRepository<PlayerEntity, String> {
     //TODO: probleme de query avec playerID
-    @Query("SELECT COUNT(*) FROM PlayerEntity, playerId  WHERE id_game = playerId")
-    public int userAlreadyConnected(PlayerId playerId);
+    @Query("SELECT COUNT(*) " +
+            "FROM PlayerEntity " +
+            "WHERE id_game = :playerId " +
+            "AND name = :playerName")
+    public int userAlreadyConnected(@Param("playerId") String playerId, @Param("playerName") String playerName);
 }
