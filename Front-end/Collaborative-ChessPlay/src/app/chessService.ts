@@ -2,6 +2,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {userConnection} from "./bodyModelHTTPRequest";
 
+
 @Injectable({providedIn: "root"})
 export class ChessService{
   baseUrl = "http://localhost:8080/api"
@@ -26,6 +27,8 @@ export class ChessService{
         responseType : "text"
       })
   }
+
+
 
   constructor(private http: HttpClient) {
   }

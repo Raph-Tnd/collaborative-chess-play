@@ -13,7 +13,7 @@
 
 <div class="main">
   <div class="chessboard">
-    <div *ngFor="let row of BOARD; let i = index">
+    <div *ngFor="let row of board; let i = index">
       <div *ngFor="let pieceBoard of row; let j = index">
         <app-piece [pieceBoard] = pieceBoard  class="{{colorBoard(i,j)}}"></app-piece>
       </div>

@@ -1,4 +1,4 @@
-import {Component, Injectable, OnInit} from '@angular/core';
+import {Component, EventEmitter, Injectable, OnInit, Output} from '@angular/core';
 import {ChessService} from "../chessService";
 import { userConnection,userPlayMove } from "../bodyModelHTTPRequest";
 import {Router} from "@angular/router";
@@ -60,10 +60,8 @@ export class CcpCadreCentralPpComponent implements OnInit {
     }
   }
 
-
   //méthode qui implémente le comportement de la page lors de la création d'une partie
   onGameCreation(){
-
     this.chessService.gameCreatePost().subscribe(
       (res) => {
         let bodyConnect: userConnection = {
@@ -73,7 +71,7 @@ export class CcpCadreCentralPpComponent implements OnInit {
         }
         this.chessService.connectGamePost(bodyConnect).subscribe(
           next => {
-            this.router.navigate(["/play/"+res]);
+            this.router.navigate(["/play/"+res],{state: {data : this.userName}});
             console.log("Connection a : "+ res)},
           error => {console.log(error)}
         );

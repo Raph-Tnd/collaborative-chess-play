@@ -56,7 +56,6 @@ public class UserService {
 }
 
 interface UserRepository extends CrudRepository<PlayerEntity, String> {
-    //TODO: probleme de query avec playerID
     @Query("SELECT COUNT(*) " +
             "FROM PlayerEntity " +
             "WHERE id_game = :playerId " +

@@ -3,7 +3,9 @@ import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/form
 import {ErrorStateMatcher} from "@angular/material/core";
 import {ActivatedRoute} from "@angular/router";
 import {ChessService} from "../chessService";
-import {userConnection} from "../bodyModelHTTPRequest";
+import {userConnection, userPlayMove} from "../bodyModelHTTPRequest";
+import {BOARD, givePiece} from "../pieceList";
+import {coerceStringArray} from "@angular/cdk/coercion";
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -18,24 +20,20 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './chess-board.component.html',
   styleUrls: ['./chess-board.component.scss']
 })
+
+
 export class ChessBoardComponent implements OnInit {
 
 
 
   @Input()
   moveField : string = "";
-  idGame : string | null  = "";
 
-  BOARD: string[][] = [
-    ["Tn1","Cn1","Fn1","Dn","Rn","Fn2","Cn2","Tn2"],
-    ["Pn1","Pn2","Pn3","Pn4","Pn5","Pn6","Pn7","Pn8"],
-    ["X","X","X","X","X","X","X","X"],
-    ["X","X","X","X","X","X","X","X"],
-    ["X","X","X","X","X","X","X","X"],
-    ["X","X","X","X","X","X","X","X"],
-    ["Pb1","Pb2","Pb3","Pb4","Pb5","Pb6","Pb7","Pb8"],
-    ["Tb1","Cb1","Fb1","Db","Rb","Fb2","Cb2","Tb2"]
-  ]
+  @Input()
+  userName : string = "";
+  idGame : string | null  = "";
+  board  = BOARD;
+
   isEven(n: number) {
     return n % 2 == 0;
   }
@@ -59,6 +57,7 @@ export class ChessBoardComponent implements OnInit {
     }
   }
 
+
   moveFormControl = new FormControl('',[
     Validators.required,
     Validators.pattern("^[a-hA-H][0-8][a-hA-H][0-8]$")
@@ -68,16 +67,44 @@ export class ChessBoardComponent implements OnInit {
 
   parseMove(move : string){
     //from "C1H2" -> "3182"
-    return String(move.charCodeAt(0)-97)+move[1]+String(move.charCodeAt(2)-97)+move[3];
+    return String(move.toUpperCase().charCodeAt(0)-64)+move[1]+String(move.toUpperCase().charCodeAt(2)-64)+move[3];
 
   }
 
-  onSubmit(){
-    this.moveFormControl.markAllAsTouched();
-    if (this.moveFormControl.valid){
-      //submit to back
-      let move = this.parseMove(this.moveFormControl.value);
+  validateMove(move: string){
+    let pieceBoard = BOARD[Number(move[0])-1][Number(move[1])-1];
+    let piece = givePiece(pieceBoard[0]);
+    if(piece?.type == undefined){
+      return false;
+    }
+    else{
+      return piece?.verifyMove(parseInt(move[0])-1,
+        parseInt(move[1])-1,
+        parseInt(move[2])-1,
+        parseInt(move[3])-1
+      );
+    }
+  }
 
+  onSubmit(){
+    if (this.moveFormControl.valid) {
+      //parseMove and check if move is valid
+      let move = this.parseMove(this.moveFormControl.value);
+      if (this.validateMove(move)) {
+        let bodyMove : userPlayMove = {
+          "player": this.userName,
+          // @ts-ignore
+          "game_id": this.idGame,
+          "x1Coord": parseInt(move[0]),
+          "y1Coord": parseInt(move[1]),
+          "x2Coord": parseInt(move[2]),
+          "y2Coord": parseInt(move[3])
+        }
+        console.log("Move valid");
+      } else {
+        //this.moveFormControl['pattern'].setErrors({'incorrect': true});
+        console.log("Move invalid");
+      }
 
       this.moveFormControl.reset();
     }
@@ -86,7 +113,14 @@ export class ChessBoardComponent implements OnInit {
   constructor(private route: ActivatedRoute, private chessService: ChessService) { }
 
   ngOnInit(): void {
-
+    this.route.paramMap.subscribe(
+      paramMap => {this.idGame = paramMap.get('id')}
+    )
+    this.route.data.subscribe(
+      res => {this.userName = String(res);
+        console.log(this.userName)},
+      error => {console.log(error)}
+    );
 
   }
 
