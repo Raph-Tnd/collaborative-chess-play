@@ -1,6 +1,7 @@
 import {Component, Injectable, OnInit} from '@angular/core';
 import {ChessService} from "../chessService";
 import { userConnection,userPlayMove } from "../bodyModelHTTPRequest";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-ccp-cadre-central-pp',
@@ -62,25 +63,24 @@ export class CcpCadreCentralPpComponent implements OnInit {
 
   //méthode qui implémente le comportement de la page lors de la création d'une partie
   onGameCreation(){
-    let id;
-    id = this.chessService.gameCreatePost();
 
-    while(id == undefined){
-      //TODO: partie non cree -> infi loop
-      //Wait till request ended
-    }
+    this.chessService.gameCreatePost().subscribe(
+      (res) => {
+        let bodyConnect: userConnection = {
+          "name": this.userName,
+          "id_game": res,
+          "team": this.teamColor
+        }
+        this.chessService.connectGamePost(bodyConnect).subscribe(
+          next => {
+            this.router.navigate(["/play/"+res]);
+            console.log("Connection a : "+ res)},
+          error => {console.log(error)}
+        );
 
-    let bodyConnect :  userConnection = {
-      "name": this.userName,
-      "id_game": id,
-      "team": this.teamColor
-    }
-    this.chessService.connectGamePost(bodyConnect);
-
-    /*this.chessService.gameCreatePost().subscribe(
-      res => { console.log(res)},
-      error => {console.log("Error")}
-    );*/
+      },
+      error => {console.log("Partie non créée, veuillez réessayer")}
+    );
   }
 
 
@@ -91,7 +91,7 @@ export class CcpCadreCentralPpComponent implements OnInit {
 
 
 
-  constructor(private chessService : ChessService) {}
+  constructor(private chessService : ChessService, private router : Router) {}
 
   ngOnInit(): void {
 

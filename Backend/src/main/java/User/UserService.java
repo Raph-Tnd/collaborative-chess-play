@@ -3,11 +3,13 @@ package main.java.User;
 import main.java.Common.GameRepository;
 import main.java.Data.Entity.GameEntity;
 import main.java.Data.Entity.PlayerEntity;
+import main.java.Data.Entity.PlayerId;
 import main.java.Data.Model.PlayerModel;
 import main.java.Data.Translator.PlayerTranslater;
 import main.java.Exception.ExceptionGameDoesNotExist;
 import main.java.Exception.ExceptionUserAlreadyConnected;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +27,14 @@ public class UserService {
     public void addPlayer(PlayerModel playerModel) throws ExceptionUserAlreadyConnected, ExceptionGameDoesNotExist {
         PlayerEntity playerEntity = PlayerTranslater.toEntity(playerModel);
 
-        if(userRepository.existsById(playerEntity.name))
+        if(userRepository.userAlreadyConnected(playerEntity.id) == 1)
             throw new ExceptionUserAlreadyConnected("A user is already connected with this username");
 
-        if(!gameRepository.existsById(playerEntity.id_game))
+        if(!gameRepository.existsById(playerEntity.id.getId_game()))
             throw new ExceptionGameDoesNotExist("This game does not exist");
 
         userRepository.save(playerEntity);
-        GameEntity gameEntity = gameRepository.findById(playerEntity.id_game).get();
+        GameEntity gameEntity = gameRepository.findById(playerEntity.id.getId_game()).get();
         if(playerModel.team == 0) {
             gameEntity.w_players++;
         } else {
@@ -45,11 +47,15 @@ public class UserService {
         Iterable<PlayerEntity> iterable = userRepository.findAll();
         List<PlayerModel> list = new ArrayList<PlayerModel>();
         for(PlayerEntity playerEntity : iterable) {
-            if(playerEntity.id_game.equals(id))
+            if(playerEntity.id.getId_game().equals(id))
                 list.add(PlayerTranslater.toModel(playerEntity));
         }
         return list;
     }
 }
 
-interface UserRepository extends CrudRepository<PlayerEntity, String> {}
+interface UserRepository extends CrudRepository<PlayerEntity, String> {
+    //TODO: probleme de query avec playerID
+    @Query("SELECT COUNT(*) FROM PlayerEntity, playerId  WHERE id_game = playerId")
+    public int userAlreadyConnected(PlayerId playerId);
+}

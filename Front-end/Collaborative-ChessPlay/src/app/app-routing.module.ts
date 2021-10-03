@@ -4,7 +4,7 @@ import { CcpCadreCentralPpComponent } from './ccp-cadre-central-pp/ccp-cadre-cen
 import { ChessBoardComponent } from './chess-board/chess-board.component';
 
 const routes: Routes = [
-  { path : 'play', component: ChessBoardComponent}, //a changer pour contenir l'ID de la partie ":id"
+  { path : 'play/:id', component: ChessBoardComponent}, //a changer pour contenir l'ID de la partie ":id"
   { path : '**', component: CcpCadreCentralPpComponent},
 ];
 

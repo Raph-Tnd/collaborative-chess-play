@@ -9,28 +9,22 @@ export class ChessService{
 
   gameCreatePost(){
     let headers = this.defaultHeaders;
-    this.http.post(this.baseUrl+"/game/create",
+    return this.http.post(this.baseUrl+"/game/create",
       null,
       {
         headers : headers,
         responseType : "text"
-      }).subscribe(
-      res => {return res},
-      error => {console.log(error)}
-    )
+      })
   }
 
   connectGamePost(body : userConnection){
     let headers = this.defaultHeaders;
-    this.http.post(this.baseUrl+"/user/connect",
+    return this.http.post(this.baseUrl+"/user/connect",
       body,
       {
         headers : headers,
         responseType : "text"
-      }).subscribe(
-      res => {console.log("Connecte a : " + body.id_game)},
-      error => {console.log(error)}
-    )
+      })
   }
 
   constructor(private http: HttpClient) {
