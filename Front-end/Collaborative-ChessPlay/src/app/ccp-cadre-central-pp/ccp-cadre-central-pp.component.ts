@@ -27,7 +27,7 @@ export class CcpCadreCentralPpComponent implements OnInit {
   teamColor= 1;
 
   //image src
-  colorTeam = "/assets/wamai.png";
+  colorTeam = String.fromCharCode(9818);
 
   //méthode pour changer le statut de showGameIdInputZone en true
   affichageGameIdInputZone(){
@@ -51,11 +51,11 @@ export class CcpCadreCentralPpComponent implements OnInit {
     //donc si 1 = noir -> 0 donc image blanche
     if (this.teamColor == 1){
       this.teamColor = 0;
-      this.colorTeam = "/assets/kkk.png";
+      this.colorTeam = String.fromCharCode(9812);
     }
     else{
       this.teamColor = 1;
-      this.colorTeam = "/assets/wamai.png";
+      this.colorTeam = String.fromCharCode(9818);
     }
   }
 

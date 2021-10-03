@@ -26,10 +26,12 @@
     min-height: 400px;
     margin-top: 5rem;
 }
+
 .pseudoAffichage{
+    padding: 1rem;
     width: auto;
     height: 25px;
-    color: rgb(163, 163, 156);
+    color: white;
     margin-left: auto;
     margin-right: auto;
     width:fit-content;
@@ -78,4 +80,17 @@
     margin-left: auto;
     margin-right: auto;
     width:fit-content;
+}
+
+#colorTeamButton{
+    width:8rem;
+    height:8rem;
+    border-radius: 75px;
+    border:none;
+
+}
+.colorTeam{
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 5rem;
 }
