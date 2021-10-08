@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Injectable, OnInit, Output} from '@angular/core';
 import {ChessService} from "../chessService";
 import { userConnection,userPlayMove } from "../bodyModelHTTPRequest";
-import {Router} from "@angular/router";
+import {Router, UrlTree} from "@angular/router";
 
 @Component({
   selector: 'app-ccp-cadre-central-pp',
@@ -70,9 +70,10 @@ export class CcpCadreCentralPpComponent implements OnInit {
           "team": this.teamColor
         }
         this.chessService.connectGamePost(bodyConnect).subscribe(
-          next => {
-            this.router.navigate(["/play/"+res],{state: {data : this.userName}});
-            console.log("Connection a : "+ res)},
+          (next) => {
+            this.router.navigateByUrl(('/play/'+res),{state: {data : bodyConnect}});
+            console.log("Connection a : " + res + " en tant que " + bodyConnect.name)
+          },
           error => {console.log(error)}
         );
 

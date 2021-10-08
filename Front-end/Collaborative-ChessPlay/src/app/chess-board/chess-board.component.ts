@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import {ErrorStateMatcher} from "@angular/material/core";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ChessService} from "../chessService";
 import {userConnection, userPlayMove} from "../bodyModelHTTPRequest";
 import {BOARD, givePiece} from "../pieceList";
@@ -24,7 +24,30 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 export class ChessBoardComponent implements OnInit {
 
+  playerDatas = <userConnection>{};
 
+  constructor(private activatedRoute: ActivatedRoute, private chessService: ChessService) { }
+
+  ngOnInit(): void {
+    this.playerDatas.id_game="undefined";
+    this.playerDatas.name="undefined";
+    this.playerDatas.team=-1;
+    this.playerDatas = history.state.data;
+    /*this.route.paramMap.subscribe(
+      paramMap => {this.idGame = paramMap.get('id')}
+    )
+    console.log(this.route.data);
+    /*
+    this.route.data.subscribe(
+      (res) => {
+        console.log(res)
+      },
+      (error) => {
+        console.log(error)
+      }
+    );
+    */
+  }
 
   @Input()
   moveField : string = "";
@@ -109,19 +132,4 @@ export class ChessBoardComponent implements OnInit {
       this.moveFormControl.reset();
     }
   }
-
-  constructor(private route: ActivatedRoute, private chessService: ChessService) { }
-
-  ngOnInit(): void {
-    this.route.paramMap.subscribe(
-      paramMap => {this.idGame = paramMap.get('id')}
-    )
-    this.route.data.subscribe(
-      res => {this.userName = String(res);
-        console.log(this.userName)},
-      error => {console.log(error)}
-    );
-
-  }
-
 }
