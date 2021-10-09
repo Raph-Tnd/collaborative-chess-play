@@ -5,7 +5,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ChessService} from "../chessService";
 import {userConnection, userPlayMove} from "../bodyModelHTTPRequest";
 import {BOARD, givePiece} from "../pieceList";
-import {coerceStringArray} from "@angular/cdk/coercion";
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -29,31 +28,19 @@ export class ChessBoardComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private chessService: ChessService) { }
 
   ngOnInit(): void {
-    this.playerDatas.id_game="undefined";
-    this.playerDatas.name="undefined";
-    this.playerDatas.team=-1;
+    if(history.state.data){
+      this.playerDatas = history.state.data;
+      sessionStorage.setItem('player_Datas', JSON.stringify(this.playerDatas));
+    }else{
+      this.playerDatas = JSON.parse(<string>sessionStorage.getItem('player_Datas'));
+    }
+  }
+  ngOnChanges(){
     this.playerDatas = history.state.data;
-    /*this.route.paramMap.subscribe(
-      paramMap => {this.idGame = paramMap.get('id')}
-    )
-    console.log(this.route.data);
-    /*
-    this.route.data.subscribe(
-      (res) => {
-        console.log(res)
-      },
-      (error) => {
-        console.log(error)
-      }
-    );
-    */
   }
 
   @Input()
   moveField : string = "";
-
-  @Input()
-  userName : string = "";
   idGame : string | null  = "";
   board  = BOARD;
 
@@ -115,14 +102,14 @@ export class ChessBoardComponent implements OnInit {
       let move = this.parseMove(this.moveFormControl.value);
       if (this.validateMove(move)) {
         let bodyMove : userPlayMove = {
-          "player": this.userName,
-          // @ts-ignore
-          "game_id": this.idGame,
+          "player": this.playerDatas.name,
+          "game_id": this.playerDatas.id_game,
           "x1Coord": parseInt(move[0]),
           "y1Coord": parseInt(move[1]),
           "x2Coord": parseInt(move[2]),
           "y2Coord": parseInt(move[3])
         }
+        console.log(this.playerDatas);
         console.log("Move valid");
       } else {
         //this.moveFormControl['pattern'].setErrors({'incorrect': true});
