@@ -38,6 +38,12 @@ export class ChessService{
       })
   }
 
+  //TODO: fetch data from backend
+  fetchMoveGet(){
+    let headers = this.defaultHeaders;
+    return this.http.get(this.baseUrl);
+  }
+
 
   constructor(private http: HttpClient) {
   }

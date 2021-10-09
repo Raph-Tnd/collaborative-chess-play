@@ -5,6 +5,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ChessService} from "../chessService";
 import {userConnection, userPlayMove} from "../bodyModelHTTPRequest";
 import {BOARD, givePiece} from "../pieceList";
+import {Subscription, timer} from "rxjs";
+import {switchMap} from "rxjs/operators";
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -23,17 +25,31 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 export class ChessBoardComponent implements OnInit {
 
+  //timerSubscription : Subscription;
   playerDatas = <userConnection>{};
 
   constructor(private activatedRoute: ActivatedRoute, private chessService: ChessService) { }
 
   ngOnInit(): void {
+    //keep data on reload
     if(history.state.data){
       this.playerDatas = history.state.data;
       sessionStorage.setItem('player_Datas', JSON.stringify(this.playerDatas));
     }else{
       this.playerDatas = JSON.parse(<string>sessionStorage.getItem('player_Datas'));
     }
+
+    //TODO: fetch data from backend
+    //subscribe to moveResponse every X second
+    /*this.timerSubscription = timer(0,30000).pipe(
+      switchMap(() => {
+
+      })
+    );*/
+  }
+
+  ngOnDestroy() : void {
+    //this.timerSubscription.unsubscribe();
   }
 
   @Input()
@@ -94,6 +110,10 @@ export class ChessBoardComponent implements OnInit {
     }
   }
 
+  fetchMove(){
+
+  }
+
   onSubmit(){
     if (this.moveFormControl.valid) {
       //parseMove and check if move is valid
@@ -108,11 +128,11 @@ export class ChessBoardComponent implements OnInit {
           "y2Coord": parseInt(move[3])
         }
         this.chessService.voteMovePost(bodyMove).subscribe(
-          res => {this.serverResponse = "Vote fait";
-          },
+          res => {this.serverResponse = "Vote fait";},
           error => {console.log(error)}
         )
       } else {
+        //TODO: Move invalid dans le moveFormControl
         //this.moveFormControl['pattern'].setErrors({'incorrect': true});
         console.log("Move invalid");
       }
