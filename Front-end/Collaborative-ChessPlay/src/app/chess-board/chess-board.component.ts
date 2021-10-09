@@ -35,14 +35,12 @@ export class ChessBoardComponent implements OnInit {
       this.playerDatas = JSON.parse(<string>sessionStorage.getItem('player_Datas'));
     }
   }
-  ngOnChanges(){
-    this.playerDatas = history.state.data;
-  }
 
   @Input()
   moveField : string = "";
-  idGame : string | null  = "";
+
   board  = BOARD;
+  serverResponse : string = "";
 
   isEven(n: number) {
     return n % 2 == 0;
@@ -109,8 +107,11 @@ export class ChessBoardComponent implements OnInit {
           "x2Coord": parseInt(move[2]),
           "y2Coord": parseInt(move[3])
         }
-        console.log(this.playerDatas);
-        console.log("Move valid");
+        this.chessService.voteMovePost(bodyMove).subscribe(
+          res => {this.serverResponse = "Vote fait";
+          },
+          error => {console.log(error)}
+        )
       } else {
         //this.moveFormControl['pattern'].setErrors({'incorrect': true});
         console.log("Move invalid");

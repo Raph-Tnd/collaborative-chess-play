@@ -1,6 +1,6 @@
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {userConnection} from "./bodyModelHTTPRequest";
+import {userConnection, userPlayMove} from "./bodyModelHTTPRequest";
 
 
 @Injectable({providedIn: "root"})
@@ -28,6 +28,15 @@ export class ChessService{
       })
   }
 
+  voteMovePost(body: userPlayMove){
+    let headers = this.defaultHeaders;
+    return this.http.post(this.baseUrl+"/game/vote",
+      body,
+      {
+        headers : headers,
+        responseType : "text"
+      })
+  }
 
 
   constructor(private http: HttpClient) {
