@@ -1,16 +1,20 @@
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {userConnection, userPlayMove} from "./bodyModelHTTPRequest";
+import {MoveModel} from "../Models/MoveModel";
+import {UserModel} from "../Models/UserModel";
 
 
 @Injectable({providedIn: "root"})
 export class ChessService{
-  baseUrl = "http://localhost:8080/api"
+  baseUrl = "http://localhost:8080/api/game"
   public defaultHeaders = new HttpHeaders();
+
+  constructor(private http: HttpClient) {
+  }
 
   gameCreatePost(){
     let headers = this.defaultHeaders;
-    return this.http.post(this.baseUrl+"/game/create",
+    return this.http.post(this.baseUrl+"/create",
       null,
       {
         headers : headers,
@@ -18,19 +22,9 @@ export class ChessService{
       })
   }
 
-  connectGamePost(body : userConnection){
+  voteMovePost(body: MoveModel){
     let headers = this.defaultHeaders;
-    return this.http.post(this.baseUrl+"/user/connect",
-      body,
-      {
-        headers : headers,
-        responseType : "text"
-      })
-  }
-
-  voteMovePost(body: userPlayMove){
-    let headers = this.defaultHeaders;
-    return this.http.post(this.baseUrl+"/game/vote",
+    return this.http.post(this.baseUrl+"/vote",
       body,
       {
         headers : headers,
@@ -42,9 +36,5 @@ export class ChessService{
   fetchMoveGet(){
     let headers = this.defaultHeaders;
     return this.http.get(this.baseUrl);
-  }
-
-
-  constructor(private http: HttpClient) {
   }
 }

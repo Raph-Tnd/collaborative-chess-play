@@ -1,11 +1,5 @@
 
 
-export interface userConnection{
-  "name" : string,
-  "id_game": string,
-  "team": number
-}
-
 export interface userPlayMove{
   "player": string,
   "game_id": string,
