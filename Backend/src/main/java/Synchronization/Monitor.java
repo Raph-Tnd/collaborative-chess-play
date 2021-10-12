@@ -21,4 +21,8 @@ public class Monitor {
     public void getMoveLock(MoveModel moveModel) throws InterruptedException {
         locks.get(moveModel.game_id).waitAllVotes(moveModel);
     }
+
+    public MoveModel getChosenMove (String id) {
+        return locks.get(id).getChosenMove();
+    }
 }

@@ -55,5 +55,12 @@ public class GameService {
         monitor.delete(id);
         gameRepository.deleteById(id);
     }
+
+    public String getChosenMove() throws ExceptionGameDoesNotExist {
+        if(!gameRepository.existsById(id))
+            throw new ExceptionGameDoesNotExist("This game does not exist");
+
+        return monitor.getChosenMove(id);
+    }
 }
 

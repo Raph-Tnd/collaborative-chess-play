@@ -32,4 +32,9 @@ public class GameController {
     public void delete(@PathVariable String id) throws ExceptionGameDoesNotExist {
         gameService.delete(id);
     }
+
+    @GetMapping("/game/getChosenMove/{id}")
+    public String sendMode(@PathVariable String id) throws ExceptionGameDoesNotExist {
+        return gameService.getChosenMove(id);
+    }
 }
