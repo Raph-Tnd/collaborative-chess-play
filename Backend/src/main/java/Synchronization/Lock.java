@@ -1,6 +1,7 @@
 package main.java.Synchronization;
 
 import main.java.Common.GameRepository;
+import main.java.Common.UserRepository;
 import main.java.Data.Model.MoveModel;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,30 +15,42 @@ public class Lock {
     private Map<String,MoveModel> moves = new HashMap<>();
     private MoveModel chosenMove = null;
 
-    @Autowired
-    GameRepository gameRepository;
-
-    public void waitAllVotes(MoveModel moveModel) throws InterruptedException {
-        int maxVote;
-        if (moveModel.team == 0) {
-            maxVote = gameRepository.findById(moveModel.game_id).get().w_players;
-        } else {
-            maxVote = gameRepository.findById(moveModel.game_id).get().b_players;
-        }
+    public void waitAllVotes(MoveModel moveModel, int maxVote) throws InterruptedException {
         int newVotesCount = votes++;
-
-        //TODO: ajouter le move a la hashmap
+        this.moves.put(moveModel.player, moveModel);
 
         if (newVotesCount != maxVote) {
             wait();
         } else {
             notifyAll();
-            this.processChosenVote();
+            this.chosenMove = this.processChosenVote();
             this.votes = 0;
             this.moves = new HashMap<>();
         }
     }
 
-    //TODO: impl func.
-    private void processChosenVote(){};
+    private MoveModel processChosenVote(){
+        Map<MoveModel, Integer> map = new HashMap<>();
+        MoveModel moveModel  = null;
+        int nbMoveMax = 0;
+        for(Map.Entry<String,MoveModel> entry : moves.entrySet()) {
+            MoveModel value = entry.getValue();
+            if(!map.containsKey(value)) {
+                map.put(value, 1);
+            } else {
+                map.put(value, map.get(value) + 1);
+            }
+
+            if(map.get(value) > nbMoveMax) {
+                moveModel = value;
+                nbMoveMax = map.get(value);
+            }
+        }
+
+        return moveModel;
+    }
+
+    public MoveModel getChosenMove() {
+        return this.chosenMove;
+    }
 }

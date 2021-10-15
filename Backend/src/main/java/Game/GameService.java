@@ -56,7 +56,7 @@ public class GameService {
         gameRepository.deleteById(id);
     }
 
-    public String getChosenMove() throws ExceptionGameDoesNotExist {
+    public MoveModel getChosenMove(String id) throws ExceptionGameDoesNotExist {
         if(!gameRepository.existsById(id))
             throw new ExceptionGameDoesNotExist("This game does not exist");
 

@@ -14,27 +14,29 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class GameController {
+
+    final String prefixe = "/game";
+
     @Autowired
     private GameService gameService;
 
-    @PostMapping("/game/vote")
+    @PostMapping(prefixe + "/vote")
     public void voteMove(@RequestBody MoveModel moveModel) throws InterruptedException {
-        System.out.println("Team = " + moveModel.team);
         gameService.vote(moveModel);
     }
 
-    @PostMapping("/game/create")
+    @PostMapping(prefixe + "/create")
     public String createGame() throws ExceptionGameAlreadyExist {
         return gameService.create();
     }
 
-    @DeleteMapping("/game/delete/{id}")
+    @DeleteMapping(prefixe + "/delete/{id}")
     public void delete(@PathVariable String id) throws ExceptionGameDoesNotExist {
         gameService.delete(id);
     }
 
-    @GetMapping("/game/getChosenMove/{id}")
-    public String sendMode(@PathVariable String id) throws ExceptionGameDoesNotExist {
+    @GetMapping(prefixe + "/getChosenMove/{id}")
+    public MoveModel sendMode(@PathVariable String id) throws ExceptionGameDoesNotExist {
         return gameService.getChosenMove(id);
     }
 }
