@@ -23,4 +23,9 @@ public class MoveModel {
             return false;
         }
     }
+
+    @Override
+    public int hashCode() {
+        return this.game_id.hashCode();
+    }
 }

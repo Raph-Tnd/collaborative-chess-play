@@ -3,6 +3,7 @@ package main.java.Synchronization;
 import main.java.Common.GameRepository;
 import main.java.Common.UserRepository;
 import main.java.Data.Model.MoveModel;
+import main.java.Exception.ExceptionUserAlreadyPlayed;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -15,8 +16,10 @@ public class Lock {
     private Map<String,MoveModel> moves = new HashMap<>();
     private MoveModel chosenMove = null;
 
-    public void waitAllVotes(MoveModel moveModel, int maxVote) throws InterruptedException {
+    public synchronized void waitAllVotes(MoveModel moveModel, int maxVote) throws InterruptedException, ExceptionUserAlreadyPlayed {
         int newVotesCount = votes++;
+        if(this.moves.containsKey(moveModel.player))
+            throw new ExceptionUserAlreadyPlayed("This user already played");
         this.moves.put(moveModel.player, moveModel);
 
         if (newVotesCount != maxVote) {
