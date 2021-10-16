@@ -5,8 +5,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ChessService} from "../chessService";
 import {userConnection, userPlayMove} from "../bodyModelHTTPRequest";
 import {BOARD, givePiece} from "../pieceList";
-import {Subscription, timer} from "rxjs";
+import {interval, Observable, Subscription, timer} from "rxjs";
 import {switchMap} from "rxjs/operators";
+import {parse} from "@angular/compiler/src/render3/view/style_parser";
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -25,7 +26,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 export class ChessBoardComponent implements OnInit {
 
-  //timerSubscription : Subscription;
+  private chosenMoveObservableRef : Subscription | undefined ;
   playerDatas = <userConnection>{};
 
   constructor(private activatedRoute: ActivatedRoute, private chessService: ChessService) { }
@@ -38,18 +39,12 @@ export class ChessBoardComponent implements OnInit {
     }else{
       this.playerDatas = JSON.parse(<string>sessionStorage.getItem('player_Datas'));
     }
-
-    //TODO: fetch data from backend
-    //subscribe to moveResponse every X second
-    /*this.timerSubscription = timer(0,30000).pipe(
-      switchMap(() => {
-
-      })
-    );*/
+    this.requestChosenMoveOften();
   }
 
   ngOnDestroy() : void {
-    //this.timerSubscription.unsubscribe();
+    // @ts-ignore
+    this.chosenMoveObservableRef.unsubscribe();
   }
 
   @Input()
@@ -110,8 +105,26 @@ export class ChessBoardComponent implements OnInit {
     }
   }
 
-  fetchMove(){
+  fetchChosenMove(){
+    console.log("test");
+    return this.chessService.fetchChosenMoveGet(this.playerDatas.id_game);
+  }
 
+  requestChosenMoveOften() {
+    //TODO: fetch data from backend
+    //TODO: wait impl in backend
+    //subscribe to moveResponse every X second
+    this.chosenMoveObservableRef = timer( 0,5000).pipe(
+      switchMap(() => {return this.fetchChosenMove();})
+    ).subscribe(
+      res => {
+        if (res == undefined){
+          console.log("Pas de vote retournée")}
+        else {
+          this.movePieceOnBoard(String(res))
+      }
+      }
+    );
   }
 
   onSubmit(){
@@ -139,5 +152,15 @@ export class ChessBoardComponent implements OnInit {
 
       this.moveFormControl.reset();
     }
+  }
+
+    movePieceOnBoard(res: String) {
+    // le back renvoie un move sous forme (xxyy) avec x et y int
+    if(res.length == 4){
+      let temp = this.board[parseInt(res.slice(0))][parseInt(res.slice(1))];
+      this.board[parseInt(res.slice(0))][parseInt(res.slice(1))] = 'X';
+      this.board[parseInt(res.slice(2))][parseInt(res.slice(3))] = temp;
+    }
+
   }
 }
