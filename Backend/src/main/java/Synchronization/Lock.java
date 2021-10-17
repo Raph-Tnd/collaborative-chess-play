@@ -17,14 +17,15 @@ public class Lock {
     private MoveModel chosenMove = null;
 
     public synchronized void waitAllVotes(MoveModel moveModel, int maxVote) throws InterruptedException, ExceptionUserAlreadyPlayed {
-        int newVotesCount = votes++;
+        votes++;
+        int newVotesCount = votes;
         if(this.moves.containsKey(moveModel.player))
             throw new ExceptionUserAlreadyPlayed("This user already played");
         this.moves.put(moveModel.player, moveModel);
-
         if (newVotesCount != maxVote) {
             wait();
         } else {
+            System.out.println("Vote choisi, envoi possible");
             notifyAll();
             this.chosenMove = this.processChosenVote();
             this.votes = 0;
@@ -49,7 +50,7 @@ public class Lock {
                 nbMoveMax = map.get(value);
             }
         }
-
+        System.out.println(moveModel);
         return moveModel;
     }
 

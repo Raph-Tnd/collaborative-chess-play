@@ -60,18 +60,19 @@ export class ChessBoardComponent implements OnInit {
   colorBoard(x: number, y: number){
     if (this.isEven(x)){
       if(this.isEven(y)){
-        return "brown";
+        return "beige";
       }
       else{
-        return "beige";
+        return "brown";
       }
     }
     else{
       if(this.isEven(y)){
-        return "beige";
+        return "brown";
       }
       else{
-        return "brown";
+
+        return "beige";
       }
     }
   }
@@ -84,10 +85,15 @@ export class ChessBoardComponent implements OnInit {
 
   matcher = new MyErrorStateMatcher();
 
-  parseMove(move : string){
+  parseInputMove(move : string){
     //from "C1H2" -> "3182"
     return String(move.toUpperCase().charCodeAt(0)-64)+move[1]+String(move.toUpperCase().charCodeAt(2)-64)+move[3];
 
+  }
+
+  parseOutputMove(move : any){
+    return String(move.x1Coord) + String(move.y1Coord) +
+      String(move.x2Coord) + String(move.y2Coord)
   }
 
   validateMove(move: string){
@@ -106,7 +112,6 @@ export class ChessBoardComponent implements OnInit {
   }
 
   fetchChosenMove(){
-    console.log("test");
     return this.chessService.fetchChosenMoveGet(this.playerDatas.id_game);
   }
 
@@ -121,8 +126,9 @@ export class ChessBoardComponent implements OnInit {
         if (res == undefined){
           console.log("Pas de vote retournée")}
         else {
-          this.movePieceOnBoard(String(res))
-      }
+          this.movePieceOnBoard(this.parseOutputMove(res))
+        }
+
       }
     );
   }
@@ -130,7 +136,7 @@ export class ChessBoardComponent implements OnInit {
   onSubmit(){
     if (this.moveFormControl.valid) {
       //parseMove and check if move is valid
-      let move = this.parseMove(this.moveFormControl.value);
+      let move = this.parseInputMove(this.moveFormControl.value);
       if (this.validateMove(move)) {
         let bodyMove : userPlayMove = {
           "player": this.playerDatas.name,
@@ -157,9 +163,10 @@ export class ChessBoardComponent implements OnInit {
     movePieceOnBoard(res: String) {
     // le back renvoie un move sous forme (xxyy) avec x et y int
     if(res.length == 4){
-      let temp = this.board[parseInt(res.slice(0))][parseInt(res.slice(1))];
-      this.board[parseInt(res.slice(0))][parseInt(res.slice(1))] = 'X';
-      this.board[parseInt(res.slice(2))][parseInt(res.slice(3))] = temp;
+      console.log("Moving piece !")
+      let temp = this.board[parseInt(res.charAt(0))-1][parseInt(res.charAt(1))-1];
+      this.board[parseInt(res.charAt(0))-1][parseInt(res.charAt(1))-1] = 'X';
+      this.board[parseInt(res.charAt(2))-1][parseInt(res.charAt(3))-1] = temp;
     }
 
   }

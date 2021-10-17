@@ -40,7 +40,7 @@ export class ChessService{
 
   //TODO: fetch data from backend
   fetchChosenMoveGet(id_game : string){
-    let headers = this.defaultHeaders;
+    // let headers = this.defaultHeaders;
     return this.http.get(this.baseUrl+"/game/getChosenMove/"+ id_game);
   }
 

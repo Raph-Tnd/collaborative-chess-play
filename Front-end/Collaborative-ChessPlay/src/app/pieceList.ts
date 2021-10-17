@@ -91,7 +91,7 @@ export const PIECES: Piece[] = [
     verifyMove: (x1, y1, x2, y2) => {
       if ( ((x2 == x1 + 2 || x1 - 2) && (y1 == y2 + 1 || y2 - 1))
       || ((x2 == x1 + 1 || x1 - 1) && (y1 == y2 + 2 || y2 - 2)) ){
-        if (BOARD[x2][y2] != 'X' ||
+        if (BOARD[x2][y2] == 'X' ||
           (BOARD[x1][y1])[1] != (BOARD[x2][y2])[1]){
           //si pas de piece ou piece adverse sur case arrive
           return true;
