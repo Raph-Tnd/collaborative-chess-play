@@ -74,7 +74,7 @@ export const PIECES: Piece[] = [
     verifyMove: (x1, y1, x2, y2) => {
       //TODO: Roque
       if(!pieceBetweenMove(x1,y1,x2,y2)){
-        if (BOARD[x2][y2] != 'X' ||
+        if (BOARD[x2][y2] == 'X' ||
           (BOARD[x1][y1])[1] != (BOARD[x2][y2])[1]){
           //si pas de piece ou piece adverse sur case arrive
           return true;
@@ -89,8 +89,8 @@ export const PIECES: Piece[] = [
     asciiCodeWhite: "&#9816;",
     asciiCodeBlack: "&#9822;",
     verifyMove: (x1, y1, x2, y2) => {
-      if ( ((x2 == x1 + 2 || x1 - 2) && (y1 == y2 + 1 || y2 - 1))
-      || ((x2 == x1 + 1 || x1 - 1) && (y1 == y2 + 2 || y2 - 2)) ){
+      if ( ((x2 == x1 + 2 || x2 == x1 - 2) && (y2 == y1 + 1 || y2 == y1 - 1))
+      || ((x2 == x1 + 1 || x2 == x1 - 1) && (y2 == y1 + 2 || y2 == y1 - 2)) ){
         if (BOARD[x2][y2] == 'X' ||
           (BOARD[x1][y1])[1] != (BOARD[x2][y2])[1]){
           //si pas de piece ou piece adverse sur case arrive
@@ -107,7 +107,7 @@ export const PIECES: Piece[] = [
     asciiCodeBlack:"&#9821;",
     verifyMove : (x1,y1,x2,y2) => {
       if(!pieceBetweenMove(x1,y1,x2,y2)){
-        if (BOARD[x2][y2] != 'X' ||
+        if (BOARD[x2][y2] == 'X' ||
           (BOARD[x1][y1])[1] != (BOARD[x2][y2])[1]){
           //si pas de piece ou piece adverse sur case arrive
           return true;
@@ -123,7 +123,7 @@ export const PIECES: Piece[] = [
     asciiCodeBlack:"&#9819;",
     verifyMove : (x1,y1,x2,y2) => {
       if(!pieceBetweenMove(x1,y1,x2,y2)){
-        if (BOARD[x2][y2] != 'X' ||
+        if (BOARD[x2][y2] == 'X' ||
           (BOARD[x1][y1])[1] != (BOARD[x2][y2])[1]){
           //si pas de piece ou piece adverse sur case arrive
           return true;
@@ -139,7 +139,7 @@ export const PIECES: Piece[] = [
     asciiCodeBlack:"&#9818;",
     verifyMove : (x1,y1,x2,y2) => {
       //TODO: forcer a jouer le roi/ ne pas deplacer une piece si possible echec
-      if (BOARD[x2][y2] != 'X' ||
+      if (BOARD[x2][y2] == 'X' ||
         (BOARD[x1][y1])[1] != (BOARD[x2][y2])[1]){
         //si pas de piece ou piece adverse sur case arrive
         return true;
