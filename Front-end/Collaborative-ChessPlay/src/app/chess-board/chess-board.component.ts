@@ -28,6 +28,7 @@ export class ChessBoardComponent implements OnInit {
 
   private chosenMoveObservableRef : Subscription | undefined ;
   playerDatas = <userConnection>{};
+  fetchedChosenMove : String = "";
 
   constructor(private activatedRoute: ActivatedRoute, private chessService: ChessService) { }
 
@@ -163,10 +164,15 @@ export class ChessBoardComponent implements OnInit {
     movePieceOnBoard(res: String) {
     // le back renvoie un move sous forme (xxyy) avec x et y int
     if(res.length == 4){
-      console.log("Moving piece !")
-      let temp = this.board[parseInt(res.charAt(0))-1][parseInt(res.charAt(1))-1];
-      this.board[parseInt(res.charAt(0))-1][parseInt(res.charAt(1))-1] = 'X';
-      this.board[parseInt(res.charAt(2))-1][parseInt(res.charAt(3))-1] = temp;
+      // on vérifie que le move n'est pas celui joué au tour d'avant car on demande une
+      // update au serveur toute les 5 secondes.
+      if (res != this.fetchedChosenMove){
+        this.fetchedChosenMove = res;
+        let temp = this.board[parseInt(res.charAt(0))-1][parseInt(res.charAt(1))-1];
+        this.board[parseInt(res.charAt(0))-1][parseInt(res.charAt(1))-1] = 'X';
+        this.board[parseInt(res.charAt(2))-1][parseInt(res.charAt(3))-1] = temp;
+      }
+
     }
 
   }
