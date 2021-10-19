@@ -1,17 +1,18 @@
-<!--- A utiliser apres lien backend
-<div>
-  <h1>{{id}}</h1>
 
-</div>
-
-<div>
-  <h1>
-    {{userName}}
-  </h1>
-</div>
--->
-<p>{{playerDatas.name}}</p>
 <div class="main">
+
+  <div class="header">
+    <button mat-raised-button class="quitGameButton" (click)="quitGame()">Quitter la partie</button>
+    <h1 class="headerPartie">
+      <span>
+        <span>ID de la partie :</span> {{playerDatas.id_game}}
+      </span>
+      <br>
+      <span>
+        <span>Joueur :</span> {{playerDatas.name}}
+      </span>
+    </h1>
+  </div>
     <table class="chessboard">
 
     <!-- moche mais nécessaire pour le header-->
@@ -37,12 +38,11 @@
       </ng-container>
   </table>
 
-  <div class="moveForm" *ngIf="teamCanPlayFlag">
-    <mat-form-field class="moveFormField" appearance="fill">
+  <div class="moveForm">
+    <mat-form-field class="moveFormField" appearance="fill" *ngIf="teamCanPlayFlag">
       <mat-label>Piece à jouer + destination</mat-label>
       <input type="text" matInput [formControl] = "moveFormControl" [errorStateMatcher]="matcher"
              (keyup.enter)="onSubmit()" placeholder="Ex: A2B2">
-
       <mat-error *ngIf="moveFormControl.hasError('pattern') && !moveFormControl.hasError('required')">
         Mouvement invalide
       </mat-error>

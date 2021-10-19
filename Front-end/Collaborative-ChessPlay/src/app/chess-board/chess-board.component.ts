@@ -180,21 +180,24 @@ export class ChessBoardComponent implements OnInit {
   }
 
     movePieceOnBoard(res: String) {
-    // le back renvoie un move sous forme (xxyy) avec x et y int
-    if(res.length == 4){
-      // on vérifie que le move n'est pas celui joué au tour d'avant car on demande une
-      // update au serveur toute les 5 secondes.
-      if (res != this.fetchedChosenMove){
-        this.fetchedChosenMove = res;
-        let temp = this.board[parseInt(res.charAt(0))-1][parseInt(res.charAt(1))-1];
-        this.board[parseInt(res.charAt(0))-1][parseInt(res.charAt(1))-1] = 'X';
-        this.board[parseInt(res.charAt(2))-1][parseInt(res.charAt(3))-1] = temp;
+      // le back renvoie un move sous forme (xxyy) avec x et y int
+      if(res.length == 4){
+        // on vérifie que le move n'est pas celui joué au tour d'avant car on demande une
+        // update au serveur toute les 5 secondes.
+        if (res != this.fetchedChosenMove){
+          this.fetchedChosenMove = res;
+          let temp = this.board[parseInt(res.charAt(0))-1][parseInt(res.charAt(1))-1];
+          this.board[parseInt(res.charAt(0))-1][parseInt(res.charAt(1))-1] = 'X';
+          this.board[parseInt(res.charAt(2))-1][parseInt(res.charAt(3))-1] = temp;
 
-        //Disable player input for ennemy turn
-        this.teamCanPlayFlag = !this.teamCanPlayFlag;
+          //Disable player input for enemy turn
+          this.teamCanPlayFlag = !this.teamCanPlayFlag;
+          this.serverResponse = "";
+        }
       }
-
     }
 
-  }
+    quitGame(){
+      //TODO: sortir le joueur de la bdd
+    }
 }

@@ -11,6 +11,7 @@ import { MatInputModule } from "@angular/material/input";
 import {  MatFormFieldModule} from "@angular/material/form-field";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule} from "@angular/common/http";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -19,17 +20,18 @@ import { HttpClientModule} from "@angular/common/http";
     ChessBoardComponent,
     PieceComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    HttpClientModule,
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        MatButtonModule,
 
-  ],
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

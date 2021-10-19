@@ -4,6 +4,38 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: gray;
+}
+
+.header{
+  width: 100%;
+  margin-top: 0.5%;
+  display: flex;
+}
+
+.headerPartie {
+  width: auto;
+  font-size: 1.2vw;
+  background-color: dimgrey;
+  border-radius: 5px;
+  margin-left: 30%;
+}
+
+.headerPartie span {
+  text-align: justify;
+  white-space: pre-wrap;
+}
+
+.headerPartie span span{
+  color: dodgerblue;
+  text-decoration: underline;
+}
+
+.quitGameButton{
+  width: 10%;
+  height: auto;
+  margin-left: 0.5%;
+  overflow-x: hidden;
 }
 
 .chessInfoRow{
@@ -29,8 +61,8 @@
   box-sizing: border-box;
   width: 80vh;
   height: 80vh;
-  margin: 20px;
-  border: 25px solid #333;
+  margin: 0.5%;
+  border: 1.5vh solid #333;
 
 }
 
@@ -57,20 +89,17 @@
 }
 
 .moveFormField{
-  width: 20vh;
+  width: 15%;
   height: auto;
-  background-color:darkgrey;
-  border-radius: 15px;
+  background-color: lightgray;
+  margin-left: 42.5%;
 }
 
 .moveForm{
-  width: auto;
+  width: 100%;
   height: auto;
   position:relative;
-  margin-left: auto;
-  margin-right: auto;
 }
-
 
 
 .hiddenServerResponse{
