@@ -87,6 +87,9 @@ export class ChessBoardComponent implements OnInit {
     }
   }
 
+  numberToLetter(x : number){
+    return String.fromCharCode(x + 64);
+  }
 
   moveFormControl = new FormControl('',[
     Validators.required,

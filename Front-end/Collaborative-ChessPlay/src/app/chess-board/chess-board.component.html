@@ -12,13 +12,30 @@
 -->
 <p>{{playerDatas.name}}</p>
 <div class="main">
-  <div class="chessboard">
-    <div *ngFor="let row of board; let i = index">
-      <div *ngFor="let pieceBoard of row; let j = index">
-        <app-piece [pieceBoard] = pieceBoard  class="{{colorBoard(i,j)}}"></app-piece>
-      </div>
-    </div>
-  </div>
+    <table class="chessboard">
+
+    <!-- moche mais nécessaire pour le header-->
+      <tr>
+        <th class="chessInfoColumnHide"></th>
+        <div class="chessInfoColumn">
+          <th>1</th>
+          <th>2</th>
+          <th>3</th>
+          <th>4</th>
+          <th>5</th>
+          <th>6</th>
+          <th>7</th>
+          <th>8</th>
+        </div>
+      </tr>
+
+      <ng-container *ngFor="let row of board; let i = index">
+        <tr class="chessRow">
+          <th scope="row" class="chessInfoRow">{{numberToLetter(i+1)}}</th>
+            <app-piece *ngFor="let pieceBoard of row; let j = index" [pieceBoard] = pieceBoard  class="{{colorBoard(i,j)}}"></app-piece>
+        </tr>
+      </ng-container>
+  </table>
 
   <div class="moveForm" *ngIf="teamCanPlayFlag">
     <mat-form-field class="moveFormField" appearance="fill">
