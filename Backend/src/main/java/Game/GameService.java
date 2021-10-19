@@ -1,6 +1,7 @@
 package main.java.Game;
 
 import main.java.Common.GameRepository;
+import main.java.Exception.ExceptionNotPlayerTurn;
 import main.java.Exception.ExceptionUserAlreadyPlayed;
 import main.java.Synchronization.Monitor;
 import main.java.Data.Entity.GameEntity;
@@ -19,7 +20,7 @@ public class GameService {
     private Monitor monitor;
 
 
-    public void vote(MoveModel moveModel) throws InterruptedException, ExceptionUserAlreadyPlayed { //todo implémenter la synchro
+    public void vote(MoveModel moveModel) throws InterruptedException, ExceptionUserAlreadyPlayed, ExceptionNotPlayerTurn { //todo implémenter la synchro
         monitor.getMoveLock(moveModel);
     }
 
