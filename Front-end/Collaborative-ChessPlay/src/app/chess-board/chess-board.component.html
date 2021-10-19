@@ -20,7 +20,7 @@
     </div>
   </div>
 
-  <div class="moveForm">
+  <div class="moveForm" *ngIf="teamCanPlayFlag">
     <mat-form-field class="moveFormField" appearance="fill">
       <mat-label>Piece à jouer + destination</mat-label>
       <input type="text" matInput [formControl] = "moveFormControl" [errorStateMatcher]="matcher"

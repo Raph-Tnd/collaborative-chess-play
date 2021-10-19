@@ -29,6 +29,13 @@ export class ChessBoardComponent implements OnInit {
   private chosenMoveObservableRef : Subscription | undefined ;
   playerDatas = <userConnection>{};
   fetchedChosenMove : String = "";
+  teamCanPlayFlag : boolean | undefined;
+
+  @Input()
+  moveField : string = "";
+
+  board  = BOARD;
+  serverResponse : string = "";
 
   constructor(private activatedRoute: ActivatedRoute, private chessService: ChessService) { }
 
@@ -41,18 +48,20 @@ export class ChessBoardComponent implements OnInit {
       this.playerDatas = JSON.parse(<string>sessionStorage.getItem('player_Datas'));
     }
     this.requestChosenMoveOften();
+
+    // 1 = black
+    if(this.playerDatas.team == 1){
+      this.teamCanPlayFlag = false;
+    }
+    else{
+      this.teamCanPlayFlag = true;
+    }
   }
 
   ngOnDestroy() : void {
     // @ts-ignore
     this.chosenMoveObservableRef.unsubscribe();
   }
-
-  @Input()
-  moveField : string = "";
-
-  board  = BOARD;
-  serverResponse : string = "";
 
   isEven(n: number) {
     return n % 2 == 0;
@@ -101,14 +110,20 @@ export class ChessBoardComponent implements OnInit {
     let pieceBoard = BOARD[Number(move[0])-1][Number(move[1])-1];
     let piece = givePiece(pieceBoard[0]);
     if(piece?.type == undefined){
+
       return false;
     }
     else{
-      return piece?.verifyMove(parseInt(move[0])-1,
-        parseInt(move[1])-1,
-        parseInt(move[2])-1,
-        parseInt(move[3])-1
-      );
+      let color = pieceBoard[1];
+      if ((color == 'n' && this.playerDatas.team == 1) ||
+        (color == 'b' && this.playerDatas.team == 0)){
+        return piece?.verifyMove(parseInt(move[0])-1,
+          parseInt(move[1])-1,
+          parseInt(move[2])-1,
+          parseInt(move[3])-1
+        );
+      }
+      return false;
     }
   }
 
@@ -171,6 +186,9 @@ export class ChessBoardComponent implements OnInit {
         let temp = this.board[parseInt(res.charAt(0))-1][parseInt(res.charAt(1))-1];
         this.board[parseInt(res.charAt(0))-1][parseInt(res.charAt(1))-1] = 'X';
         this.board[parseInt(res.charAt(2))-1][parseInt(res.charAt(3))-1] = temp;
+
+        //Disable player input for ennemy turn
+        this.teamCanPlayFlag = !this.teamCanPlayFlag;
       }
 
     }
