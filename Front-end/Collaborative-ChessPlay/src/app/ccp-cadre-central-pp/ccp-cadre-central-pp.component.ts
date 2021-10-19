@@ -85,7 +85,18 @@ export class CcpCadreCentralPpComponent implements OnInit {
 
   //méthode qui implémente le comportement de la page lorsque l'on rejoint une partie
   onGameJoin(){
-    console.log('On rejoint une partie de jeu');
+    let bodyConnect: userConnection = {
+      "name": this.userName,
+      "id_game": this.gameId,
+      "team": this.teamColor
+    }
+    this.chessService.connectGamePost(bodyConnect).subscribe(
+      (res) => {
+        this.router.navigateByUrl(('/play/'+this.gameId),{state: {data : bodyConnect}});
+        console.log("Connection a : " + this.gameId + " en tant que " + bodyConnect.name)
+      },
+      error => {console.log(error)},
+    );
   }
 
 
