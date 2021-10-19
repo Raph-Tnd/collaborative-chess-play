@@ -1,12 +1,9 @@
 package main.java.Synchronization;
 
-import main.java.Common.GameRepository;
-import main.java.Common.UserRepository;
 import main.java.Data.Model.MoveModel;
+import main.java.Exception.ExceptionNotPlayerTurn;
 import main.java.Exception.ExceptionUserAlreadyPlayed;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,12 +12,16 @@ public class Lock {
     public int votes = 0;
     private Map<String,MoveModel> moves = new HashMap<>();
     private MoveModel chosenMove = null;
+    boolean isWhiteTurn = true;
 
-    public synchronized void waitAllVotes(MoveModel moveModel, int maxVote) throws InterruptedException, ExceptionUserAlreadyPlayed {
+    public synchronized void waitAllVotes(MoveModel moveModel, int maxVote, int team) throws InterruptedException, ExceptionUserAlreadyPlayed, ExceptionNotPlayerTurn {
         votes++;
         int newVotesCount = votes;
         if(this.moves.containsKey(moveModel.player))
             throw new ExceptionUserAlreadyPlayed("This user already played");
+        if((this.isWhiteTurn && team == 0) || (!this.isWhiteTurn && team == 1))
+            throw new ExceptionNotPlayerTurn("This is not currently your turn");
+
         this.moves.put(moveModel.player, moveModel);
         if (newVotesCount != maxVote) {
             wait();
@@ -30,6 +31,7 @@ public class Lock {
             this.chosenMove = this.processChosenVote();
             this.votes = 0;
             this.moves = new HashMap<>();
+            this.isWhiteTurn = !this.isWhiteTurn;
         }
     }
 

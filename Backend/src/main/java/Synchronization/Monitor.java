@@ -6,6 +6,7 @@ import main.java.Data.Entity.PlayerEntity;
 import main.java.Data.Entity.PlayerId;
 import main.java.Data.Model.MoveModel;
 import main.java.Data.Model.PlayerModel;
+import main.java.Exception.ExceptionNotPlayerTurn;
 import main.java.Exception.ExceptionUserAlreadyPlayed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class Monitor {
         this.locks.remove(id);
     }
 
-    public void getMoveLock(MoveModel moveModel) throws InterruptedException, ExceptionUserAlreadyPlayed {
+    public void getMoveLock(MoveModel moveModel) throws InterruptedException, ExceptionUserAlreadyPlayed, ExceptionNotPlayerTurn {
         //todo user does not exist exception
         PlayerId playerId = new PlayerId();
         playerId.setId_game(moveModel.game_id);
@@ -49,7 +50,7 @@ public class Monitor {
         if(!locks.containsKey(moveModel.game_id))// todo retirer cette condition en prod
             this.locks.put(moveModel.game_id, new Lock());
 
-        locks.get(moveModel.game_id).waitAllVotes(moveModel, maxVote);
+        locks.get(moveModel.game_id).waitAllVotes(moveModel, maxVote, team);
     }
 
     public MoveModel getChosenMove (String id) {
