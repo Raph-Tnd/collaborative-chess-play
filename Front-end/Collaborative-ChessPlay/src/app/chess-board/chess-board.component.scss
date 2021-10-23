@@ -1,55 +1,108 @@
-.chessboard{
-  width: 850px;
-  height: 850px;
-  margin: 20px;
-  border: 25px solid #333;
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
-
-}
-
-.beige{
-  float: left;
-  width: 100px;
-  height: 100px;
-  background-color: beige;
-    font-size: 70px;
-  text-align: center;
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.brown{
-  float: left;
-  width: 100px;
-  height: 100px;
-  background-color: saddlebrown;
-    font-size: 70px;
-  text-align: center;
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.moveFormField{
-  width: auto;
-  height: auto;
-  background-color:darkgrey;
-  border-radius: 15px;
-}
-
-.moveForm{
-  width: auto;
-  height: auto;
-  position:relative;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .main{
   width:100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: gray;
+}
+
+.header{
+  width: 100%;
+  margin-top: 0.5%;
+  display: flex;
+}
+
+.headerPartie {
+  width: auto;
+  font-size: 1.2vw;
+  background-color: dimgrey;
+  border-radius: 5px;
+  margin-left: 30%;
+}
+
+.headerPartie span {
+  text-align: justify;
+  white-space: pre-wrap;
+}
+
+.headerPartie span span{
+  color: dodgerblue;
+  text-decoration: underline;
+}
+
+.quitGameButton{
+  width: 10%;
+  height: auto;
+  margin-left: 0.5%;
+  overflow-x: hidden;
+}
+
+.chessInfoRow{
+  background-color: #333333 ;
+  color: white;
+  width: 4%;
+}
+
+.chessInfoColumn{
+  background-color: #333333 ;
+  color: white;
+  text-align: justify;
+  display: flex;
+  justify-content: space-around;
+}
+
+.chessInfoColumnHide{
+  background-color: #333333;
+}
+
+.chessboard{
+  position: relative;
+  box-sizing: border-box;
+  width: 80vh;
+  height: 80vh;
+  margin: 0.5%;
+  border: 1.5vh solid #333;
+
+}
+
+.chessRow{
+  position: relative;
+  width: 100%;
+  height: 12.5%;
+}
+
+.beige{
+  position: relative;
+  float: left;
+  width: 12.5%;
+  height: 100%;
+  background-color: beige;
+}
+
+.brown{
+  position: relative;
+  float: left;
+  width: 12.5%;
+  height: 100%;
+  background-color: saddlebrown;
+}
+
+.moveFormField{
+  width: 15%;
+  height: auto;
+  background-color: lightgray;
+  margin-left: 42.5%;
+}
+
+.moveForm{
+  width: 100%;
+  height: auto;
+  position:relative;
+}
+
+
+.hiddenServerResponse{
+  width: auto;
+  height: auto;
 }

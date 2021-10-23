@@ -21,15 +21,17 @@
     width:50%;
     max-width: 500px;
     min-width: 400px;
-    height:50%;
+    height:fit-content;
     max-height: 500px;
     min-height: 400px;
     margin-top: 5rem;
 }
+
 .pseudoAffichage{
+    padding: 1rem;
     width: auto;
     height: 25px;
-    color: rgb(163, 163, 156);
+    color: white;
     margin-left: auto;
     margin-right: auto;
     width:fit-content;
@@ -70,12 +72,35 @@
     width:fit-content;
 }
 .gameIdInputZone{
+    margin-bottom: 1rem;
     margin-left: auto;
     margin-right: auto;
     width:fit-content;
 }
 .idGameValidationButton{
+    margin-bottom: 1rem;
     margin-left: auto;
     margin-right: auto;
     width:fit-content;
+}
+.IdGameZone{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    width:fit-content;
+    margin-left:25%;
+    margin-bottom:1rem;
+}
+#colorTeamButton{
+    width:8rem;
+    height:8rem;
+    border-radius: 75px;
+    border:none;
+
+}
+.colorTeam{
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 5rem;
 }

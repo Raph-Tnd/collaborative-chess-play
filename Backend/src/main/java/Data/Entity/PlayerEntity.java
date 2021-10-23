@@ -1,21 +1,17 @@
 package main.java.Data.Entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name="PLAYER")
 public class PlayerEntity {
 
-    @Id
-    @Column(name="name", nullable = false)
-    public String name;
+    @EmbeddedId
+    public PlayerId id;
 
     @Column(name="team", nullable = false)
     public byte team;
 
-    @Column(name="id_game", nullable = false)
-    public String id_game;
 }
+

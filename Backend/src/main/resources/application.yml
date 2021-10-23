@@ -1,14 +1,18 @@
 spring:
   datasource:
+    initialization-mode: always
+    data: classpath:data.sql
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://db:3306/database?createDatabaseIfNotExist=true
     username: root
     password: root
   jpa:
-    generate-ddl: true
+    defer-datasource-initialization: true
+    generate-ddl: false
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
 server:
+  port: 8080
   servlet:
     contextPath: /api
   error:

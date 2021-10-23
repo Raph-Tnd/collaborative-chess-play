@@ -29,4 +29,17 @@ public class HttpExceptions {
     public void handleGameDoesNotExistException(ExceptionGameDoesNotExist exception, HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.NOT_FOUND.value(), exception.getMessage());
     }
+
+    @ExceptionHandler(value = ExceptionUserAlreadyPlayed.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleUserAlreadyPlayedException(ExceptionUserAlreadyPlayed exception, HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.CONFLICT.value(), exception.getMessage());
+    }
+
+    @ExceptionHandler(value = ExceptionNotPlayerTurn.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public void handleNotPlayerTurnException(ExceptionNotPlayerTurn exception, HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.FORBIDDEN.value(), exception.getMessage());
+    }
+
 }

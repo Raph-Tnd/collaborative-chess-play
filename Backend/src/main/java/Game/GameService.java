@@ -1,6 +1,8 @@
 package main.java.Game;
 
 import main.java.Common.GameRepository;
+import main.java.Exception.ExceptionNotPlayerTurn;
+import main.java.Exception.ExceptionUserAlreadyPlayed;
 import main.java.Synchronization.Monitor;
 import main.java.Data.Entity.GameEntity;
 import main.java.Data.Model.MoveModel;
@@ -18,7 +20,7 @@ public class GameService {
     private Monitor monitor;
 
 
-    public void vote(MoveModel moveModel) throws InterruptedException { //todo implémenter la synchro
+    public void vote(MoveModel moveModel) throws InterruptedException, ExceptionUserAlreadyPlayed, ExceptionNotPlayerTurn { //todo implémenter la synchro
         monitor.getMoveLock(moveModel);
     }
 
@@ -54,6 +56,13 @@ public class GameService {
 
         monitor.delete(id);
         gameRepository.deleteById(id);
+    }
+
+    public MoveModel getChosenMove(String id) throws ExceptionGameDoesNotExist {
+        if(!gameRepository.existsById(id))
+            throw new ExceptionGameDoesNotExist("This game does not exist");
+
+        return monitor.getChosenMove(id);
     }
 }
 

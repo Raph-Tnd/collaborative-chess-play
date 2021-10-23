@@ -19,15 +19,15 @@ export class PieceComponent implements OnInit {
     let pieceColor = piece[1];
     let res = givePiece(pieceType);
     if(pieceType == "X"){
-      return "";
+      return "&nbsp;";
     }
     if(pieceColor == "b"){
       // @ts-ignore
-      return res.asciiCodeBlack;
+      return res.asciiCodeWhite;
     }
     else{
       // @ts-ignore
-      return res.asciiCodeWhite;
+      return res.asciiCodeBlack;
     }
   }
   constructor() { }
