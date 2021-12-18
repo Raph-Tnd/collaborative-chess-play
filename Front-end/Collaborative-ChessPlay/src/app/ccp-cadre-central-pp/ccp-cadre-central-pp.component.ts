@@ -2,6 +2,8 @@ import {Component, EventEmitter, Injectable, OnInit, Output} from '@angular/core
 import {ChessService} from "../chessService";
 import { userConnection,userPlayMove } from "../bodyModelHTTPRequest";
 import {Router, UrlTree} from "@angular/router";
+import * as SockJS from 'sockjs-client';
+import { Client, over } from 'stompjs';
 
 @Component({
   selector: 'app-ccp-cadre-central-pp',
@@ -63,22 +65,22 @@ export class CcpCadreCentralPpComponent implements OnInit {
   //méthode qui implémente le comportement de la page lors de la création d'une partie
   onGameCreation(){
     this.chessService.gameCreatePost().subscribe(
-      (res) => {
+      (res: string) => {
         let bodyConnect: userConnection = {
           "name": this.userName,
           "id_game": res,
           "team": this.teamColor
         }
         this.chessService.connectGamePost(bodyConnect).subscribe(
-          (next) => {
+          (next: any) => {
             this.router.navigateByUrl(('/play/'+res),{state: {data : bodyConnect}});
             console.log("Connection a : " + res + " en tant que " + bodyConnect.name)
           },
-          error => {console.log(error)}
+          (          error: any) => {console.log(error)}
         );
 
       },
-      error => {console.log("Partie non créée, veuillez réessayer")}
+      (      error: any) => {console.log("Partie non créée, veuillez réessayer")}
     );
   }
 
@@ -91,20 +93,40 @@ export class CcpCadreCentralPpComponent implements OnInit {
       "team": this.teamColor
     }
     this.chessService.connectGamePost(bodyConnect).subscribe(
-      (res) => {
+      (res: any) => {
         this.router.navigateByUrl(('/play/'+this.gameId),{state: {data : bodyConnect}});
         console.log("Connection a : " + this.gameId + " en tant que " + bodyConnect.name)
       },
-      error => {console.log(error)},
+      (      error: any) => {console.log(error)},
     );
   }
 
-
-
-  constructor(private chessService : ChessService, private router : Router) {}
-
-  ngOnInit(): void {
-
+  constructor(private chessService : ChessService, private router : Router) {
   }
 
+  /**
+   * Exemple de la mise en place d'un websocket 
+   */
+
+  //Création d'un objet Client qui se connectera à l'url passé en paramètre pour initialiser le ws
+  stompClient = over(new SockJS('http://localhost:8080/api/socket'));
+
+  //Fonction pour envoyer un message simple au websocket à l'adresse /message/test
+  sendWebSocket() {
+    this.stompClient.send('/message/test', {}, "Michel");
+  }
+
+  //On se connect au ws à l'initialisation de la page
+  ngOnInit() {
+    const _this = this;
+    this.stompClient.connect({}, function(frame) {
+        console.log('Connected: ' + frame);
+        //On subscribe au channel /chat/private : dans le backend, à chaque message reçu à l'adresse /message/test, une réponse est envoyée dans le channel /chat/private
+        _this.stompClient.subscribe('/chat/private', function(message) {
+            console.log('Here');
+            console.log('Message is: ' + message.body);
+        });
+        console.log('Here2');
+    })
+  }
 }
