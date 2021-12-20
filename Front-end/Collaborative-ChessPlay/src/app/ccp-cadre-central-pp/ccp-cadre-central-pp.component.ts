@@ -94,8 +94,8 @@ export class CcpCadreCentralPpComponent implements OnInit {
     }
     this.chessService.connectGamePost(bodyConnect).subscribe(
       (res: any) => {
-        this.router.navigateByUrl(('/play/'+this.gameId),{state: {data : bodyConnect}});
-        console.log("Connection a : " + this.gameId + " en tant que " + bodyConnect.name)
+        this.router.navigateByUrl(('/play/' + this.gameId), {state: {data: bodyConnect}}).then(
+            r  => console.log("Connection a : " + this.gameId + " en tant que " + bodyConnect.name));
       },
       (      error: any) => {console.log(error)},
     );
@@ -108,25 +108,25 @@ export class CcpCadreCentralPpComponent implements OnInit {
    * Exemple de la mise en place d'un websocket 
    */
 
-  //Création d'un objet Client qui se connectera à l'url passé en paramètre pour initialiser le ws
-  stompClient = over(new SockJS('http://localhost:8080/api/socket'));
-
-  //Fonction pour envoyer un message simple au websocket à l'adresse /message/test
-  sendWebSocket() {
-    this.stompClient.send('/message/test', {}, "Michel");
-  }
+  // //Création d'un objet Client qui se connectera à l'url passé en paramètre pour initialiser le ws
+  // stompClient = over(new SockJS('http://localhost:8080/api/socket'));
+  //
+  // //Fonction pour envoyer un message simple au websocket à l'adresse /message/test
+  // sendWebSocket() {
+  //   this.stompClient.send('/message/test', {}, "Michel");
+  // }
 
   //On se connect au ws à l'initialisation de la page
   ngOnInit() {
-    const _this = this;
-    this.stompClient.connect({}, function(frame) {
-        console.log('Connected: ' + frame);
-        //On subscribe au channel /chat/private : dans le backend, à chaque message reçu à l'adresse /message/test, une réponse est envoyée dans le channel /chat/private
-        _this.stompClient.subscribe('/chat/private', function(message) {
-            console.log('Here');
-            console.log('Message is: ' + message.body);
-        });
-        console.log('Here2');
-    })
+    // const _this = this;
+    // this.stompClient.connect({}, function(frame) {
+    //     console.log('Connected: ' + frame);
+    //     //On subscribe au channel /chat/private : dans le backend, à chaque message reçu à l'adresse /message/test, une réponse est envoyée dans le channel /chat/private
+    //     _this.stompClient.subscribe('/chat/private', function(message) {
+    //         console.log('Here');
+    //         console.log('Message is: ' + message.body);
+    //     });
+    //     console.log('Here2');
+    // })
   }
 }

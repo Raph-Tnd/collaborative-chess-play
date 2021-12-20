@@ -34,7 +34,7 @@ public class GameController {
     }
 
     @GetMapping(prefixe + "/getChosenMove/{id}")
-    public MoveModel sendMode(@PathVariable String id) throws ExceptionGameDoesNotExist {
+    public MoveModel sendMove(@PathVariable String id) throws ExceptionGameDoesNotExist {
         return gameService.getChosenMove(id);
     }
 }
