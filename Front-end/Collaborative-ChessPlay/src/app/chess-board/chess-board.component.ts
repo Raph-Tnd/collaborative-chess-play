@@ -4,7 +4,7 @@ import {ErrorStateMatcher} from "@angular/material/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ChessService} from "../chessService";
 import {userConnection, userPlayMove} from "../bodyModelHTTPRequest";
-import {BOARD, givePiece} from "../pieceList";
+import {givePiece, initBOARD} from "../pieceList";
 import {interval, Observable, Subscription, timer} from "rxjs";
 import {switchMap} from "rxjs/operators";
 import {parse} from "@angular/compiler/src/render3/view/style_parser";
@@ -35,7 +35,7 @@ export class ChessBoardComponent implements OnInit {
     @Input()
     moveField : string = "";
 
-    board  = JSON.parse(JSON.stringify(BOARD));
+    board  = JSON.parse(JSON.stringify(initBOARD));
     serverResponse : string = "";
     stompClient = over(new SockJS('http://localhost:8080/api/socket'));
 
@@ -77,7 +77,11 @@ export class ChessBoardComponent implements OnInit {
 
     parseInputMove(move : string){
         //from "C1H2" -> "3182"
-        return String(move.toUpperCase().charCodeAt(0)-64)+move[1]+String(move.toUpperCase().charCodeAt(2)-64)+move[3];
+        let x1 : number = (move.toUpperCase().charCodeAt(0) - 64)-1;
+        let y1 : number = parseInt(move[1])-1;
+        let x2 : number = (move.toUpperCase().charCodeAt(2) - 64)-1;
+        let y2 : number = parseInt(move[3])-1;
+        return x1.toString() + y1.toString() + x2.toString() + y2.toString();
 
     }
 
@@ -90,24 +94,24 @@ export class ChessBoardComponent implements OnInit {
     }
 
     validateMove(move: string){
-        let pieceBoard = BOARD[Number(move[0])-1][Number(move[1])-1];
+        let pieceBoard = this.board[parseInt(move[0])][parseInt(move[1])];
         let piece = givePiece(pieceBoard[0]);
         if(piece?.type == undefined){
-
-          return false;
+            return false;
         }
         else
         {
-          let color = pieceBoard[1];
-          if ((color == 'n' && this.playerDatas.team == 1) ||
-            (color == 'b' && this.playerDatas.team == 0)){
-            return piece?.verifyMove(parseInt(move[0])-1,
-              parseInt(move[1])-1,
-              parseInt(move[2])-1,
-              parseInt(move[3])-1
-            );
-          }
-          return false;
+            let color = pieceBoard[1];
+            if ((color == 'n' && this.playerDatas.team == 1) ||
+                (color == 'b' && this.playerDatas.team == 0)){
+                return piece?.verifyMove(parseInt(move[0]),
+                    parseInt(move[1]),
+                    parseInt(move[2]),
+                    parseInt(move[3]),
+                    pieceBoard,
+                    this.board);
+            }
+        return false;
         }
     }
 
@@ -147,29 +151,80 @@ export class ChessBoardComponent implements OnInit {
         }
     }
 
-    private movePieceOnBoard(res: String) {
+    movePieceOnBoard(res: String) {
         // le back renvoie un move sous forme (xxyy) avec x et y int
         if(res.length == 4){
         // on vérifie que le move n'est pas celui joué au tour d'avant
             if (res != this.fetchedChosenMove){
-              this.fetchedChosenMove = res;
-              let temp = this.board[parseInt(res.charAt(0))-1][parseInt(res.charAt(1))-1];
-              this.board[parseInt(res.charAt(0))-1][parseInt(res.charAt(1))-1] = 'X';
-              this.board[parseInt(res.charAt(2))-1][parseInt(res.charAt(3))-1] = temp;
-                // this.board[0][0] = 'X';
-                // this.board[5][0] = temp;
-              //Disable player input for enemy turn
-              this.teamCanPlayFlag = !this.teamCanPlayFlag;
-              this.serverResponse = "";
+                let x1 : number = parseInt(res.charAt(0));
+                let y1 : number = parseInt(res.charAt(1));
+                let x2 : number = parseInt(res.charAt(2));
+                let y2 : number = parseInt(res.charAt(3));
+                this.fetchedChosenMove = res;
+                //TODO : roque
+                if(this.isRoqueMove(x1,y1,x2,y2)){
+                    if( y1 == 4){
+                        //swap y1 et y2 pour pas dupliquer du code
+                        let swap = y1;
+                        y1 = y2;
+                        y2 = swap;
+                    }
+                    let tour : string = this.board[x1][y1];
+                    let roi : string = this.board[x2][y2];
+                    if(y1 == 0){
+                        //grand roque
+                        this.board[x1][y1] = 'X';
+                        this.board[x2][y2] = 'X';
+                        this.board[x1][3] = tour;
+                        this.board[x2][2] = roi;
+                    }
+                    else
+                    {
+                        //y1 == 7 / petit roque
+                        this.board[x1][y1] = 'X';
+                        this.board[x2][y2] = 'X';
+                        this.board[x1][5] = tour;
+                        this.board[x2][6] = roi;
+                    }
+                }
+                else
+                {
+                    let temp = this.board[x1][y1];
+                    this.board[x1][y1] = 'X';
+                    this.board[x2][y2] = temp;
+                }
+
+
+
+
+                //Disable player input for enemy turn
+                this.teamCanPlayFlag = !this.teamCanPlayFlag;
+                this.serverResponse = "";
             }
         }
     }
 
-    quitGame(){
-      //TODO: sortir le joueur de la bdd
+    isRoqueMove(x1 : number, y1 : number, x2 : number, y2 : number) : Boolean {
+        if( ((this.board[x1][y1])[1] == 'n' && x1 == 0) || ((this.board[x1][y1])[1] == 'b' && x1 == 7) ){
+            if((this.board[x1][y1])[0] == 'T'){
+                return (this.board[x2][y2])[0] == 'R'
+            }
+            if((this.board[x1][y1])[0] == 'R'){
+                return (this.board[x2][y2])[0] == 'T'
+            }
+        }
+        return false;
+
     }
 
-    constructor(private activatedRoute: ActivatedRoute, private chessService: ChessService) { }
+    quitGame(){
+      //TODO: sortir le joueur de la bdd
+        this.router.navigateByUrl('/').then(
+            r =>
+        );
+    }
+
+    constructor(private router : Router, private chessService: ChessService) { }
 
 
     ngOnInit(): void {
@@ -195,8 +250,9 @@ export class ChessBoardComponent implements OnInit {
             _this.stompClient.subscribe('/chat/chosenMove', function(message) {
                 _this.movePieceOnBoard(_this.parseOutputMove(message.body));
                 console.log(_this.board)
+                // data on refresh
+                //_this.playerDatas = JSON.parse()
             });
-            console.log('Here2');
         })
     }
 

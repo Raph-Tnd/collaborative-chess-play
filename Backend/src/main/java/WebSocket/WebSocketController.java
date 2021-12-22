@@ -32,6 +32,7 @@ public class WebSocketController {
 
     @MessageMapping(value = "/submitMove")
     @SendTo("/chat/chosenMove")
+    //TODO : channel avec id de la game
     public MoveModel sendChosenMove(@RequestBody String message) throws JSONException, ExceptionUserAlreadyPlayed, InterruptedException, ExceptionNotPlayerTurn, ExceptionGameDoesNotExist {
         MoveModel temp = String2MoveModel(message);
         gameService.vote(temp);
