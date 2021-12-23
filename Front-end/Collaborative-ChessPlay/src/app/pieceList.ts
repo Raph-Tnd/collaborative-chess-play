@@ -38,36 +38,105 @@ export let initBOARD :string[][] = [
     ["Tb1","Cb1","Fb1","Db","Rb","Fb2","Cb2","Tb2"]
 ]
 
+export let stubBOARD : string[][] = [
+    ["Tn1","Cn1","Fn1","Dn","Rn","Fn2","Cn2","Db"],
+    ["X","X","X","X","X","X","X","X"],
+    ["X","X","X","X","X","X","X","X"],
+    ["X","X","X","X","X","X","X","X"],
+    ["X","X","X","X","X","X","X","X"],
+    ["X","X","X","X","X","X","X","X"],
+    ["X","X","X","X","X","X","X","X"],
+    ["Tb1","Cb1","Fb1","X","Rb","Fb2","Cb2","Tb2"]
+]
+
 function noPieceBetweenMove(x1: number, y1: number, x2: number, y2: number, BOARD: string[][]) {
     for (let i = 0; i < BOARD.length; i++){
         for (let j = 0; j < BOARD.length; j++){
             //verticale
             if (y1 == y2){
-                if (j == y1 && (x1 < i || i < x2) ){
-                    if (BOARD[i][j] != 'X'){
-                        return false;
+                if (j == y1){
+                    if(x1 < x2 && numberIsBetween(i,x1,x2)){
+                        if(BOARD[i][j] != 'X'){
+                            return false;
+                        }
+                    }
+                    if(x1 > x2 && numberIsBetween(i,x2,x1)){
+                        if(BOARD[i][j] != 'X'){
+                            return false;
+                        }
                     }
                 }
             }
-            //horizontale
+            //horizontal
             if (x1 == x2){
-                if (i == x1 && (y1 < j || j < y2) ){
-                    if (BOARD[i][j] != 'X'){
-                        return false;
+                if (i == x1){
+                    if(y1 < y2 && numberIsBetween(j,y1,y2)){
+                        if(BOARD[i][j] != 'X'){
+                            return false;
+                        }
+                    }
+                    if(y1 > y2 && numberIsBetween(j,y2,y1)){
+                        if(BOARD[i][j] != 'X'){
+                            return false;
+                        }
                     }
                 }
             }
+
             //diagonale
-            if(Math.abs(x1 - x2) == Math.abs(y1 - y2)){
-                if (Math.abs(x1 - i) == Math.abs(y1 - j)){
-                    if (BOARD[i][j] != 'X'){
-                        return false;
+            if(Math.abs(x1 - x2) == Math.abs(y1 - y2)) {
+                console.log("1");
+                if((Math.abs(x1 - i) == Math.abs(y1 - j)) && (i != x1 && j != y1)){
+                    console.log("2");
+                    //diago haut gauche
+                    if(x1 > x2 && y1 > y2){
+                        if(numberIsBetween(i, x2, x1) && numberIsBetween(j, y2, y1)){
+                            if (BOARD[i][j] != 'X'){
+                                return false;
+                            }
+                        }
+                    }
+                    //diago haut droit
+                    if(x1 > x2 && y1 < y2){
+                        if(numberIsBetween(i, x2, x1) && numberIsBetween(j, y1, y2)){
+                            if (BOARD[i][j] != 'X'){
+                                return false;
+                            }
+                        }
+                    }
+                    //diago bas gauche
+                    if(x1 < x2 && y1 > y2){
+                        if(numberIsBetween(i, x1, x2) && numberIsBetween(j , y2, y1)){
+                            if (BOARD[i][j] != 'X'){
+                                return false;
+                            }
+                        }
+                    }
+                    //diago bas droit
+                    if(x1 < x2 && y1 < y2){
+                        if(numberIsBetween(i, x1, x2) && numberIsBetween(j , y1, y2)){
+                            if (BOARD[i][j] != 'X'){
+                                return false;
+                            }
+                        }
                     }
                 }
             }
         }
     }
     return true;
+}
+
+function numberIsBetween(a : number, x : number ,y: number) : boolean {
+    return (x < a && a < y);
+}
+
+function moveIsDiago(x1: number, y1: number, x2: number, y2: number) : boolean {
+    return Math.abs(x1 - x2) == Math.abs(y1 - y2);
+}
+
+function moveIsStraight(x1: number, y1: number, x2: number, y2: number) : boolean {
+    return x1 == x2 || y1 == y2;
 }
 
 export const PIECES: Piece[] = [
@@ -77,7 +146,8 @@ export const PIECES: Piece[] = [
         asciiCodeBlack: "&#9820;",
         verifyMove: (x1, y1, x2, y2, piece, BOARD: string[][]) => {
             //TODO: pour le roque aussi (voir roi)
-            if(noPieceBetweenMove(x1,y1,x2,y2, BOARD)){
+            if(moveIsStraight(x1,y1,x2,y2) && noPieceBetweenMove(x1,y1,x2,y2, BOARD)){
+                console.log('noPieceBetween');
                 //si pas de piece ou piece adverse entre les cases
                 if(piece[1] == 'n' && ((x1 == 0 && y1 == 0) || (x1 == 0 && y1 == 7)) && x2 == 0 && y2 == 4 ){
                     //roque
@@ -89,6 +159,7 @@ export const PIECES: Piece[] = [
                 }
                 return (BOARD[x2][y2] == 'X' || (BOARD[x1][y1])[1] != (BOARD[x2][y2])[1]);
             }
+            console.log('pieceBetween');
             return false;
         }
     },
@@ -113,7 +184,7 @@ export const PIECES: Piece[] = [
         asciiCodeWhite:"&#9815;",
         asciiCodeBlack:"&#9821;",
         verifyMove : (x1,y1,x2,y2, piece, BOARD: string[][]) => {
-            if(noPieceBetweenMove(x1,y1,x2,y2, BOARD)){
+            if(moveIsDiago(x1,y1,x2,y2) && noPieceBetweenMove(x1,y1,x2,y2, BOARD)){
                 if (BOARD[x2][y2] == 'X' ||
                 (BOARD[x1][y1])[1] != (BOARD[x2][y2])[1]){
                     //si pas de piece ou piece adverse sur case arrive
@@ -129,7 +200,7 @@ export const PIECES: Piece[] = [
         asciiCodeWhite:"&#9813;",
         asciiCodeBlack:"&#9819;",
         verifyMove : (x1,y1,x2,y2, piece, BOARD: string[][]) => {
-            if(noPieceBetweenMove(x1,y1,x2,y2, BOARD)){
+            if((moveIsDiago(x1,y1,x2,y2) || moveIsStraight(x1,y1,x2,y2)) && noPieceBetweenMove(x1,y1,x2,y2, BOARD)){
                 if (BOARD[x2][y2] == 'X' ||
                 (BOARD[x1][y1])[1] != (BOARD[x2][y2])[1]){
                     //si pas de piece ou piece adverse sur case arrive

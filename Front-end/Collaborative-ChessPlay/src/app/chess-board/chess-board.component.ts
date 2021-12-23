@@ -4,7 +4,7 @@ import {ErrorStateMatcher} from "@angular/material/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ChessService} from "../chessService";
 import {userConnection, userPlayMove} from "../bodyModelHTTPRequest";
-import {givePiece, initBOARD} from "../pieceList";
+import {givePiece, initBOARD, stubBOARD} from "../pieceList";
 import {interval, Observable, Subscription, timer} from "rxjs";
 import {switchMap} from "rxjs/operators";
 import {parse} from "@angular/compiler/src/render3/view/style_parser";
@@ -35,8 +35,8 @@ export class ChessBoardComponent implements OnInit {
 
     @Input()
     moveField : string = "";
-
-    board  = JSON.parse(JSON.stringify(initBOARD));
+    board = JSON.parse(JSON.stringify(stubBOARD));
+    //board  = JSON.parse(JSON.stringify(initBOARD));
     serverResponse : string = "";
     stompClientMove = over(new SockJS(environment.API_URL+'/api/socket'));
     stompClientPlayers = over(new SockJS(environment.API_URL+'/api/socket'));
@@ -80,7 +80,7 @@ export class ChessBoardComponent implements OnInit {
     matcher = new MyErrorStateMatcher();
 
     parseInputMove(move : string){
-        //from "C1H2" -> "3182"
+        //from "C1H2" -> "3182" -> "2071"
         let x1 : number = (move.toUpperCase().charCodeAt(0) - 64)-1;
         let y1 : number = parseInt(move[1])-1;
         let x2 : number = (move.toUpperCase().charCodeAt(2) - 64)-1;
