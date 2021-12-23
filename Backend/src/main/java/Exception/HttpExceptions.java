@@ -42,4 +42,10 @@ public class HttpExceptions {
         response.sendError(HttpStatus.FORBIDDEN.value(), exception.getMessage());
     }
 
+    @ExceptionHandler(value = ExceptionUserDoesNotExist.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handleUserDoesNotExistException(ExceptionUserDoesNotExist exception, HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.NOT_FOUND.value(), exception.getMessage());
+    }
+
 }

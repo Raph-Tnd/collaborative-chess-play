@@ -1,5 +1,8 @@
 package main.java.Data.Model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MoveModel {
     public String player;
     public String game_id;
@@ -27,5 +30,17 @@ public class MoveModel {
     @Override
     public int hashCode() {
         return this.game_id.hashCode();
+    }
+
+    public static MoveModel FromString(String json) throws JSONException {
+        MoveModel res = new MoveModel();
+        JSONObject temp = new JSONObject(json);
+        res.game_id = temp.getString("game_id");
+        res.player = temp.getString("player");
+        res.x1Coord = Integer.valueOf(temp.getString("x1Coord"));
+        res.x2Coord = Integer.valueOf(temp.getString("x2Coord"));
+        res.y1Coord = Integer.valueOf(temp.getString("y1Coord"));
+        res.y2Coord = Integer.valueOf(temp.getString("y2Coord"));
+        return res;
     }
 }

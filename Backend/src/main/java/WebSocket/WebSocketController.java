@@ -30,24 +30,11 @@ public class WebSocketController {
         return "Hello " + message +" !";
     }
 
-    @MessageMapping(value = "/submitMove")
-    @SendTo("/chat/chosenMove")
-    //TODO : channel avec id de la game
+    @MessageMapping(value = "/submitMove/{idGame}")
+    @SendTo("/chat/getChosenMove/{idGame}")
     public MoveModel sendChosenMove(@RequestBody String message) throws JSONException, ExceptionUserAlreadyPlayed, InterruptedException, ExceptionNotPlayerTurn, ExceptionGameDoesNotExist {
-        MoveModel temp = String2MoveModel(message);
-        gameService.vote(temp);
-        return gameService.getChosenMove(temp.game_id) ;
-    }
-
-    private MoveModel String2MoveModel(String str) throws JSONException {
-        MoveModel res = new MoveModel();
-        JSONObject temp = new JSONObject(str);
-        res.game_id = temp.getString("game_id");
-        res.player = temp.getString("player");
-        res.x1Coord = Integer.valueOf(temp.getString("x1Coord"));
-        res.x2Coord = Integer.valueOf(temp.getString("x2Coord"));
-        res.y1Coord = Integer.valueOf(temp.getString("y1Coord"));
-        res.y2Coord = Integer.valueOf(temp.getString("y2Coord"));
-        return res;
+        MoveModel moveModel = MoveModel.FromString(message);
+        gameService.vote(moveModel);
+        return gameService.getChosenMove(moveModel.game_id) ;
     }
 }

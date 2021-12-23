@@ -8,6 +8,7 @@ import main.java.Data.Model.PlayerModel;
 import main.java.Data.Translator.PlayerTranslater;
 import main.java.Exception.ExceptionGameDoesNotExist;
 import main.java.Exception.ExceptionUserAlreadyConnected;
+import main.java.Exception.ExceptionUserDoesNotExist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +39,12 @@ public class UserService {
             gameEntity.b_players++;
         }
         gameRepository.save(gameEntity);
+    }
+
+    public void deletePlayer(String name, String idGame) throws ExceptionUserDoesNotExist {
+        if(userRepository.userAlreadyConnected(idGame, name) == 0)
+            throw new ExceptionUserDoesNotExist("Cannot find any player connected on this game");
+        userRepository.deleteByPlayerId(idGame, name);
     }
 
     public List<PlayerModel> getAllPlayer(String id) {

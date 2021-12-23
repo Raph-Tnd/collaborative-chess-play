@@ -17,4 +17,7 @@ public interface UserRepository extends CrudRepository<PlayerEntity, String> {
             "WHERE id_game = :playerId " +
             "AND name = :playerName")
     public PlayerEntity findByPlayerId(@Param("playerId") String playerId, @Param("playerName") String playerName);
+
+    @Query("DELETE FROM PlayerEntity WHERE id_game = :playerId AND name = :playerName")
+    public void deleteByPlayerId(@Param("playerId") String playerId, @Param("playerName") String playerName);
 }

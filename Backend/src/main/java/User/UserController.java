@@ -1,9 +1,11 @@
 package main.java.User;
 
+import main.java.Data.Entity.PlayerId;
 import main.java.Data.Model.MoveModel;
 import main.java.Data.Model.PlayerModel;
 import main.java.Exception.ExceptionGameDoesNotExist;
 import main.java.Exception.ExceptionUserAlreadyConnected;
+import main.java.Exception.ExceptionUserDoesNotExist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,11 @@ public class UserController {
     @PostMapping("/user/connect")
     public void connectPlayer(@RequestBody PlayerModel playerModel) throws ExceptionUserAlreadyConnected, ExceptionGameDoesNotExist {
         this.userService.addPlayer(playerModel);
+    }
+
+    @DeleteMapping("/user/delete/{gameId}")
+    public void deleteUser(@RequestBody String name, @PathVariable String idGame) throws ExceptionUserDoesNotExist {
+        this.userService.deletePlayer(name, idGame);
     }
 
     /**
