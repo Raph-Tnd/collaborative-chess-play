@@ -1,7 +1,6 @@
 package main.java.Game;
 
 import main.java.Common.GameRepository;
-import main.java.Data.Model.GameModel;
 import main.java.Exception.ExceptionNotPlayerTurn;
 import main.java.Exception.ExceptionUserAlreadyPlayed;
 import main.java.Synchronization.Monitor;

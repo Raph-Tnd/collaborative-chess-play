@@ -1,7 +1,6 @@
 package main.java.WebSocket;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
-import main.java.Data.Model.GameModel;
 import main.java.Data.Model.MoveModel;
 import main.java.Data.Model.PlayerModel;
 import main.java.Exception.ExceptionGameDoesNotExist;
@@ -40,8 +39,9 @@ public class WebSocketController {
 
     @MessageMapping(value = "/connectToGame/{idGame}")
     @SendTo("/chat/getGameInfo/{idGame}")
-    public List<PlayerModel> sendGameInfo(@DestinationVariable String id) {
-        return userService.getAllPlayer(id);
+    public List<PlayerModel> sendGameInfo(@DestinationVariable String idGame) {
+        System.out.println("test"+ idGame);
+        return userService.getAllPlayer(idGame);
     }
 
     @MessageMapping(value = "/submitMove/{idGame}")

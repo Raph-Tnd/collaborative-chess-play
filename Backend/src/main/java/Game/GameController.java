@@ -18,11 +18,7 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
-    //TODO : Version websocket
-    /*@PostMapping(prefixe + "/vote")
-    public void voteMove(@RequestBody MoveModel moveModel) throws InterruptedException, ExceptionUserAlreadyPlayed, ExceptionNotPlayerTurn {
-        gameService.vote(moveModel);
-    }*/
+
 
     @PostMapping(prefixe + "/create")
     public String createGame() throws ExceptionGameAlreadyExist {
@@ -34,9 +30,4 @@ public class GameController {
         gameService.delete(id);
     }
 
-    //TODO : Version websocket
-    /*@GetMapping(prefixe + "/getChosenMove/{id}")
-    public MoveModel sendMove(@PathVariable String id) throws ExceptionGameDoesNotExist {
-        return gameService.getChosenMove(id);
-    }*/
 }

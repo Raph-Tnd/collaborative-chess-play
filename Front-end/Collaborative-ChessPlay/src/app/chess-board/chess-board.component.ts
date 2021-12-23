@@ -37,7 +37,11 @@ export class ChessBoardComponent implements OnInit {
 
     board  = JSON.parse(JSON.stringify(initBOARD));
     serverResponse : string = "";
-    stompClient = over(new SockJS('http://localhost:8080/api/socket'));
+    stompClientMove = over(new SockJS('http://localhost:8080/api/socket'));
+    stompClientPlayers = over(new SockJS('http://localhost:8080/api/socket'));
+    listOfPlayers = undefined;
+    nbBlanc = 0;
+    nbNoir = 0;
 
 
     isEven(n: number) {
@@ -46,21 +50,20 @@ export class ChessBoardComponent implements OnInit {
 
     colorBoard(x: number, y: number){
         if (this.isEven(x)){
-          if(this.isEven(y)){
-            return "beige";
-          }
-          else{
-            return "brown";
-          }
+            if(this.isEven(y)){
+                return "beige";
+            }
+            else{
+                return "brown";
+            }
         }
         else{
-          if(this.isEven(y)){
-            return "brown";
-          }
-          else{
-
-            return "beige";
-          }
+            if(this.isEven(y)){
+                return "brown";
+            }
+            else{
+                return "beige";
+            }
         }
     }
 
@@ -87,8 +90,6 @@ export class ChessBoardComponent implements OnInit {
 
     parseOutputMove(move : string){
         let temp = JSON.parse(move);
-        console.log(temp.x1Coord.toString() + temp.y1Coord.toString() +
-            temp.x2Coord.toString() + temp.y2Coord.toString());
         return temp.x1Coord.toString() + temp.y1Coord.toString() +
             temp.x2Coord.toString() + temp.y2Coord.toString();
     }
@@ -117,35 +118,23 @@ export class ChessBoardComponent implements OnInit {
 
     onSubmit(){
         if (this.moveFormControl.valid) {
-          //parseMove and check if move is valid
-          let move = this.parseInputMove(this.moveFormControl.value);
-          if (this.validateMove(move)) {
-            let bodyMove = {
-              "player": this.playerDatas.name,
-              "game_id": this.playerDatas.id_game,
-              "x1Coord": parseInt(move[0]),
-              "y1Coord": parseInt(move[1]),
-              "x2Coord": parseInt(move[2]),
-              "y2Coord": parseInt(move[3])
+            //parseMove and check if move is valid
+            let move = this.parseInputMove(this.moveFormControl.value);
+            if (this.validateMove(move)) {
+                let bodyMove = {
+                  "player": this.playerDatas.name,
+                  "game_id": this.playerDatas.id_game,
+                  "x1Coord": parseInt(move[0]),
+                  "y1Coord": parseInt(move[1]),
+                  "x2Coord": parseInt(move[2]),
+                  "y2Coord": parseInt(move[3])
+                }
+                this.stompClientMove.send('/message/submitMove/'+this.playerDatas.id_game, {}, JSON.stringify(bodyMove));
+            } else {
+                //TODO: Move invalid dans le moveFormControl
+                //this.moveFormControl['pattern'].setErrors({'incorrect': true});
+                console.log("Move invalid");
             }
-
-            // let body : string = this.playerDatas.name + ", " +
-            //                     this.playerDatas.id_game + ", " +
-            //                     parseInt(move[0]) + ", " +
-            //                     parseInt(move[1]) + ", " +
-            //                     parseInt(move[2]) + ", " +
-            //                     parseInt(move[3]);
-
-            this.stompClient.send('/message/submitMove', {}, JSON.stringify(bodyMove));
-            // this.chessService.voteMovePost(bodyMove).subscribe(
-            //   res => {this.serverResponse = "Vote fait";},
-            //   error => {console.log(error)}
-            // )
-          } else {
-            //TODO: Move invalid dans le moveFormControl
-            //this.moveFormControl['pattern'].setErrors({'incorrect': true});
-            console.log("Move invalid");
-          }
 
           this.moveFormControl.reset();
         }
@@ -193,15 +182,28 @@ export class ChessBoardComponent implements OnInit {
                     this.board[x1][y1] = 'X';
                     this.board[x2][y2] = temp;
                 }
-
-
-
-
                 //Disable player input for enemy turn
                 this.teamCanPlayFlag = !this.teamCanPlayFlag;
                 this.serverResponse = "";
             }
         }
+    }
+
+    countNbPlayers() {
+        const _this = this;
+        // @ts-ignore
+        this.listOfPlayers.forEach(function (player) {
+            _this.nbBlanc = 0;
+            _this.nbNoir = 0;
+            console.log(player.team);
+            if(player.team == 1){
+                _this.nbNoir++;
+            }else{
+                _this.nbBlanc++;
+            }
+        })
+
+
     }
 
     isRoqueMove(x1 : number, y1 : number, x2 : number, y2 : number) : Boolean {
@@ -220,7 +222,7 @@ export class ChessBoardComponent implements OnInit {
     quitGame(){
       //TODO: sortir le joueur de la bdd
         this.router.navigateByUrl('/').then(
-            r =>
+
         );
     }
 
@@ -245,20 +247,31 @@ export class ChessBoardComponent implements OnInit {
 
         //WebSocket
         const _this = this;
-        this.stompClient.connect({}, function(frame) {
-            console.log('Connected: ' + frame);
-            _this.stompClient.subscribe('/chat/chosenMove', function(message) {
+        this.stompClientMove.connect({}, function(frame) {
+            _this.stompClientMove.subscribe('/chat/getChosenMove/'+_this.playerDatas.id_game, function(message) {
                 _this.movePieceOnBoard(_this.parseOutputMove(message.body));
-                console.log(_this.board)
                 // data on refresh
                 //_this.playerDatas = JSON.parse()
             });
         })
+
+
+
+        this.stompClientPlayers.connect({}, function(frame) {
+            _this.stompClientPlayers.subscribe('/chat/getGameInfo/'+_this.playerDatas.id_game, function(message) {
+                console.log(message.body);
+                _this.listOfPlayers = JSON.parse(message.body);
+                console.log(_this.listOfPlayers);
+                _this.countNbPlayers();
+            });
+            _this.stompClientPlayers.send('/message/connectToGame/'+_this.playerDatas.id_game, {}, "");
+        })
+
     }
 
     ngOnDestroy() : void {
         // @ts-ignore
         //this.chosenMoveObservableRef.unsubscribe();
-        this.stompClient.unsubscribe();
+        this.stompClientMove.unsubscribe();
     }
 }
