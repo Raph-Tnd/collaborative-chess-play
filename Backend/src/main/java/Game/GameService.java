@@ -20,7 +20,7 @@ public class GameService {
     private Monitor monitor;
 
 
-    public void vote(MoveModel moveModel) throws InterruptedException, ExceptionUserAlreadyPlayed, ExceptionNotPlayerTurn { //todo implémenter la synchro
+    public void vote(MoveModel moveModel) throws InterruptedException, ExceptionUserAlreadyPlayed, ExceptionNotPlayerTurn {
         monitor.getMoveLock(moveModel);
     }
 

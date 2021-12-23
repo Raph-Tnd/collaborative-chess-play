@@ -15,5 +15,5 @@ export interface Piece{
   asciiCodeWhite: string;
   asciiCodeBlack: string;
   //coordonnes: 0 < x/y < 7 deja verifie
-  verifyMove: (x1 : number, y1 : number, x2 : number, y2 : number) => boolean;
+  verifyMove: (x1 : number, y1 : number, x2 : number, y2 : number, piece : string, board : string[][]) => boolean;
 }
