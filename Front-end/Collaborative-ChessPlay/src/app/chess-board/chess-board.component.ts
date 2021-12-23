@@ -10,6 +10,7 @@ import {switchMap} from "rxjs/operators";
 import {parse} from "@angular/compiler/src/render3/view/style_parser";
 import {over} from "stompjs";
 import * as SockJS from "sockjs-client";
+import {environment} from "../../environments/environment";
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -37,8 +38,8 @@ export class ChessBoardComponent implements OnInit {
 
     board  = JSON.parse(JSON.stringify(initBOARD));
     serverResponse : string = "";
-    stompClientMove = over(new SockJS('http://localhost:8080/api/socket'));
-    stompClientPlayers = over(new SockJS('http://localhost:8080/api/socket'));
+    stompClientMove = over(new SockJS(environment.API_URL+'/api/socket'));
+    stompClientPlayers = over(new SockJS(environment.API_URL+'/api/socket'));
     listOfPlayers = undefined;
     nbBlanc = 0;
     nbNoir = 0;

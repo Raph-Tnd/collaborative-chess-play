@@ -22,7 +22,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 public class WebSocketController {
 
     @Autowired

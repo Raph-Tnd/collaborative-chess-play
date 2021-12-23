@@ -1,11 +1,14 @@
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {userConnection, userPlayMove} from "./bodyModelHTTPRequest";
+import {environment} from "../environments/environment";
 
 
 @Injectable({providedIn: "root"})
 export class ChessService{
-  baseUrl = "http://localhost:8080/api"
+
+
+  baseUrl = environment.API_URL+"/api"
   public defaultHeaders = new HttpHeaders();
 
   gameCreatePost(){

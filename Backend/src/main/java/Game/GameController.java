@@ -1,5 +1,6 @@
 package main.java.Game;
 
+import main.java.Common.Configuration;
 import main.java.Data.Model.MoveModel;
 import main.java.Data.Model.PlayerModel;
 import main.java.Exception.*;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 public class GameController {
 
     final String prefixe = "/game";
