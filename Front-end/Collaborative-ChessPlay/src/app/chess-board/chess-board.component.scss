@@ -11,6 +11,7 @@
   width: 100%;
   margin-top: 0.5%;
   display: flex;
+  flex-direction: row;
 }
 
 .headerPartie {
@@ -36,6 +37,21 @@
   height: auto;
   margin-left: 0.5%;
   overflow-x: hidden;
+}
+
+.listPlayers {
+  position: relative;
+  width: auto;
+  height: auto;
+  background-color: dimgray;
+  border-radius: 5px;
+  margin-left: 20%;
+}
+
+.listPlayers span {
+  text-align: center;
+  color: dodgerblue;
+  text-decoration: underline;
 }
 
 .chessInfoRow{
@@ -91,7 +107,7 @@
 .moveFormField{
   width: 15%;
   height: auto;
-  background-color: lightgray;
+  background-color: dimgray;
   margin-left: 42.5%;
 }
 
@@ -106,3 +122,5 @@
   width: auto;
   height: auto;
 }
+
+

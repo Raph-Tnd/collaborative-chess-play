@@ -12,6 +12,23 @@
         <span>Joueur :</span> {{playerDatas.name}}
       </span>
     </h1>
+    <div class="listPlayers">
+      <span>Noir(s): </span>{{countBlack()}}
+      &nbsp;
+      <span>Blanc(s): </span>{{countWhite()}}
+      <table>
+          Votre équipe:
+          <ng-container *ngFor="let player of listOfPlayers">
+              <tr>
+                  <th *ngIf="player.team == playerDatas.team">
+                      &nbsp;{{player.name}}
+                  </th>
+              </tr>
+
+          </ng-container>
+
+      </table>
+    </div>
   </div>
     <table class="chessboard">
 
@@ -38,22 +55,6 @@
       </ng-container>
   </table>
 
-
-    <div class="listPlayers">
-        Joueur(s) Noir(s) : {{nbNoir}}
-        Joueur(s) Blanc(s) : {{nbBlanc}}
-        <table>
-            <ng-container *ngFor="let player of listOfPlayers">
-                <tr>
-                    <th *ngIf="player.team == playerDatas.team">
-                        {{player.name}}
-                    </th>
-                </tr>
-
-            </ng-container>
-
-        </table>
-    </div>
 
   <div class="moveForm">
     <mat-form-field class="moveFormField" appearance="fill" *ngIf="teamCanPlayFlag">

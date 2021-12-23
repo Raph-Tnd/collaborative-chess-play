@@ -189,21 +189,26 @@ export class ChessBoardComponent implements OnInit {
         }
     }
 
-    countNbPlayers() {
-        const _this = this;
+    countBlack() : number {
+        let res: number = 0
         // @ts-ignore
-        this.listOfPlayers.forEach(function (player) {
-            _this.nbBlanc = 0;
-            _this.nbNoir = 0;
-            console.log(player.team);
-            if(player.team == 1){
-                _this.nbNoir++;
-            }else{
-                _this.nbBlanc++;
+        this.listOfPlayers.forEach(function(elem) {
+            if(elem.team == 1){
+                res++;
             }
-        })
+        });
+        return res;
+    }
 
-
+    countWhite() : number {
+        let res: number = 0
+        // @ts-ignore
+        this.listOfPlayers.forEach(function(elem) {
+            if(elem.team == 0){
+                res++;
+            }
+        });
+        return res;
     }
 
     isRoqueMove(x1 : number, y1 : number, x2 : number, y2 : number) : Boolean {
@@ -262,7 +267,6 @@ export class ChessBoardComponent implements OnInit {
                 console.log(message.body);
                 _this.listOfPlayers = JSON.parse(message.body);
                 console.log(_this.listOfPlayers);
-                _this.countNbPlayers();
             });
             _this.stompClientPlayers.send('/message/connectToGame/'+_this.playerDatas.id_game, {}, "");
         })
