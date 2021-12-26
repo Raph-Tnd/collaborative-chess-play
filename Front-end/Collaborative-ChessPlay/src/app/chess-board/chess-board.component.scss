@@ -77,10 +77,11 @@
 ._cdkDropListGroup {
   width: 100%;
   height: 100%;
+  display: grid;
 }
 
 ._cdkDropList {
-  height: 12.5%;
+  //height: 12.5%;
   width: auto;
 }
 

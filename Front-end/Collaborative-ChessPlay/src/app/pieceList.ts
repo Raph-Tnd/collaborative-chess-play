@@ -218,21 +218,10 @@ export const PIECES: Piece[] = [
         verifyMove : (x1,y1,x2,y2, piece, BOARD: string[][]) => {
             //TODO: forcer a jouer le roi/ ne pas deplacer une piece si possible echec
             //TODO: pour le roque aussi
-            if ((Math.abs(y1-y2) == 1) || (Math.abs(x1 - x2) == 1)){
+            if ((Math.abs(y1-y2) == 1) && (Math.abs(x1 - x2) == 1)){
                 //si pas de piece ou piece adverse sur case arrive
                 return (BOARD[x2][y2] == 'X' ||
                 (BOARD[x1][y1])[1] != (BOARD[x2][y2])[1]);
-            }
-            if(noPieceBetweenMove(x1,y1,x2,y2, BOARD)){
-                //si pas de piece ou piece adverse entre les cases
-                if(piece[1] == 'n' && x1 == 0 && y1 == 4 && ((x2 == 0 && y2 == 0) || (x2 == 0 && y2 == 7)) ){
-                    //roque
-                    return true;
-                }
-                if(piece[1] == 'b' && x1 == 7 && y1 == 4 && ((x2 == 7 && y2 == 0) || (x2 == 7 && y2 == 7)) ){
-                    //roque
-                    return true;
-                }
             }
             return false;
         }

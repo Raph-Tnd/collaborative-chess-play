@@ -33,8 +33,8 @@ export class ChessBoardComponent implements OnInit {
 
     @Input()
     moveField : string = "";
-    //board = JSON.parse(JSON.stringify(stubBOARD));
-    board  = JSON.parse(JSON.stringify(initBOARD));
+    board = JSON.parse(JSON.stringify(stubBOARD));
+    //board  = JSON.parse(JSON.stringify(initBOARD));
     serverResponse : string = "";
     stompClientMove = over(new SockJS(environment.API_URL+'/api/socket'));
     stompClientPlayers = over(new SockJS(environment.API_URL+'/api/socket'));
@@ -58,6 +58,7 @@ export class ChessBoardComponent implements OnInit {
     drop(event: CdkDragDrop<string[]>, i: number) {
             //parseMove and check if move is valid
             let move = this.parseDragMove(i, event.currentIndex, event.previousContainer, event.previousIndex);
+            console.log(event);
             console.log(move);
             if (this.validateMove(move)) {
                 let bodyMove = {
@@ -68,6 +69,7 @@ export class ChessBoardComponent implements OnInit {
                   "x2Coord": parseInt(move[2]),
                   "y2Coord": parseInt(move[3])
                 }
+                console.log("SENDING");
                 this.stompClientMove.send('/message/submitMove/'+this.playerDatas.id_game, {}, JSON.stringify(bodyMove));
             } else {
                 console.log("Move invalid");
@@ -159,7 +161,7 @@ export class ChessBoardComponent implements OnInit {
                   "x2Coord": parseInt(move[2]),
                   "y2Coord": parseInt(move[3])
                 }
-                console.log(bodyMove);
+                //console.log("SENDING " + bodyMove);
                 this.stompClientMove.send('/message/submitMove/'+this.playerDatas.id_game, {}, JSON.stringify(bodyMove));
             } else {
                 //TODO: Move invalid dans le moveFormControl
