@@ -33,7 +33,7 @@
     <table class="chessboard">
 
     <!-- moche mais nécessaire pour le header-->
-      <tr>
+      <!--tr>
         <th class="chessInfoColumnHide"></th>
         <div class="chessInfoColumn">
           <th>1</th>
@@ -45,14 +45,18 @@
           <th>7</th>
           <th>8</th>
         </div>
-      </tr>
+      </tr-->
 
-      <ng-container *ngFor="let row of board; let i = index">
-        <tr class="chessRow">
-          <th scope="row" class="chessInfoRow">{{numberToLetter(i+1)}}</th>
-            <app-piece *ngFor="let pieceBoard of row; let j = index" [pieceBoard] = pieceBoard  class="{{colorBoard(i,j)}}"></app-piece>
-        </tr>
-      </ng-container>
+      <div cdkDropListGroup class="_cdkDropListGroup">
+          <ng-container *ngFor="let row of board; let i = index">
+            <div class="_cdkDropList" cdkDropList (cdkDropListDropped)="drop($event, i)" cdkDropListOrientation="horizontal" [cdkDropListData]="row">
+              <tr class="chessRow">
+                <th scope="row" class="chessInfoRow">{{numberToLetter(i+1)}}</th>
+                <app-piece *ngFor="let pieceBoard of row; let j = index" [pieceBoard] = pieceBoard  class="boardSquare {{colorBoard(i,j)}}"></app-piece>
+              </tr>
+            </div>
+          </ng-container>
+      </div>
   </table>
 
 

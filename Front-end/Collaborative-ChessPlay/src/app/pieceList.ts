@@ -40,7 +40,7 @@ export let initBOARD :string[][] = [
 
 export let stubBOARD : string[][] = [
     ["Tn1","Cn1","Fn1","Dn","Rn","Fn2","Cn2","Db"],
-    ["X","X","X","X","X","X","X","X"],
+    ["","","","","","","",""],
     ["X","X","X","X","X","X","X","X"],
     ["X","X","X","X","X","X","X","X"],
     ["X","X","X","X","X","X","X","X"],

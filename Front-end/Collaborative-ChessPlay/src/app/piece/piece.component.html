@@ -1,1 +1,5 @@
-<div [innerHTML]="displayPiece(pieceBoard)" class="pieceDiv"></div>
+<div class="pieceDiv">
+    <div [innerHTML]="displayPiece(pieceBoard)" cdkDrag>
+        <!--div *cdkDragPlaceholder></div-->
+    </div>
+</div>

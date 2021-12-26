@@ -1,16 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import {ErrorStateMatcher} from "@angular/material/core";
-import {ActivatedRoute, Router} from "@angular/router";
 import {ChessService} from "../chessService";
-import {userConnection, userPlayMove} from "../bodyModelHTTPRequest";
-import {givePiece, initBOARD, stubBOARD} from "../pieceList";
-import {interval, Observable, Subscription, timer} from "rxjs";
-import {switchMap} from "rxjs/operators";
-import {parse} from "@angular/compiler/src/render3/view/style_parser";
+import {userConnection} from "../bodyModelHTTPRequest";
+import {givePiece, stubBOARD} from "../pieceList";
 import {over} from "stompjs";
 import * as SockJS from "sockjs-client";
 import {environment} from "../../environments/environment";
+import { Router } from '@angular/router';
+import { CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -44,6 +42,37 @@ export class ChessBoardComponent implements OnInit {
     nbBlanc = 0;
     nbNoir = 0;
 
+    parseDragMove(i: number, index: number, previousContainer: CdkDropList<string[]>, previousIndex: number) {
+        let Yorigin = 0;
+        let flag = false;
+        this.board.forEach(function(element: any) {
+            if(flag == false && element != previousContainer.data) {
+                Yorigin++;
+            } else {
+                flag=true;
+            }
+        });
+        return Yorigin+ previousIndex.toString() + i + index.toString();
+    }
+
+    drop(event: CdkDragDrop<string[]>, i: number) {
+            //parseMove and check if move is valid
+            let move = this.parseDragMove(i, event.currentIndex, event.previousContainer, event.previousIndex);
+            console.log(move);
+            if (this.validateMove(move)) {
+                let bodyMove = {
+                  "player": this.playerDatas.name,
+                  "game_id": this.playerDatas.id_game,
+                  "x1Coord": parseInt(move[0]),
+                  "y1Coord": parseInt(move[1]),
+                  "x2Coord": parseInt(move[2]),
+                  "y2Coord": parseInt(move[3])
+                }
+                this.stompClientMove.send('/message/submitMove/'+this.playerDatas.id_game, {}, JSON.stringify(bodyMove));
+            } else {
+                console.log("Move invalid");
+            }
+      }
 
     isEven(n: number) {
         return n % 2 == 0;
@@ -130,6 +159,7 @@ export class ChessBoardComponent implements OnInit {
                   "x2Coord": parseInt(move[2]),
                   "y2Coord": parseInt(move[3])
                 }
+                console.log(bodyMove);
                 this.stompClientMove.send('/message/submitMove/'+this.playerDatas.id_game, {}, JSON.stringify(bodyMove));
             } else {
                 //TODO: Move invalid dans le moveFormControl
