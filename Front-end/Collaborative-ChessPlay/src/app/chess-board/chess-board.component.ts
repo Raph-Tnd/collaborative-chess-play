@@ -3,7 +3,7 @@ import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/form
 import {ErrorStateMatcher} from "@angular/material/core";
 import {ChessService} from "../chessService";
 import {userConnection} from "../bodyModelHTTPRequest";
-import {givePiece, stubBOARD} from "../pieceList";
+import {givePiece, stubBOARD, initBOARD} from "../pieceList";
 import {over} from "stompjs";
 import * as SockJS from "sockjs-client";
 import {environment} from "../../environments/environment";
@@ -33,8 +33,8 @@ export class ChessBoardComponent implements OnInit {
 
     @Input()
     moveField : string = "";
-    board = JSON.parse(JSON.stringify(stubBOARD));
-    //board  = JSON.parse(JSON.stringify(initBOARD));
+    //board = JSON.parse(JSON.stringify(stubBOARD));
+    board  = JSON.parse(JSON.stringify(initBOARD));
     serverResponse : string = "";
     stompClientMove = over(new SockJS(environment.API_URL+'/api/socket'));
     stompClientPlayers = over(new SockJS(environment.API_URL+'/api/socket'));

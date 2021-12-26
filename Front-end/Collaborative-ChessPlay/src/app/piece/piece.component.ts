@@ -28,7 +28,7 @@ export class PieceComponent implements OnInit {
       // @ts-ignore
       return res.asciiCodeWhite;
     } else{
-      return "X";
+      return "";
     }
   }
   constructor() { }
